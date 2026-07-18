@@ -7,13 +7,13 @@ submission. They use no third-party logos or brand marks.
 
 | File | Canvas | Intended use |
 |---|---:|---|
-| `cover.png` | 1600×900 | Previous deployed initial-state capture; pending replacement after the latest UI is deployed |
+| `cover.png` | 1600×900 | Deployed public live UI at commit `2610375`, captured in the initial `BLOCKED` state |
 | `architecture.svg` / `architecture.png` | 1600×900 | Architecture visual for the repository, submission description, and final demo-video explanation |
 | `youtube-thumbnail.svg` / `youtube-thumbnail.png` | 1280×720 | YouTube demo thumbnail |
-| `screenshots/01-initial-blocked.png` | 1600×900 | Previous public live-mode initial state; pending current-UI recapture |
-| `screenshots/02-repair-proposed.png` | 1600×900 | Previous fixture-mode proposal state; pending current-UI recapture |
-| `screenshots/03-release-verified.png` | 1600×900 | Previous public live-mode verified state; pending current-UI recapture |
-| `screenshots/04-mobile-initial.png` | 390×844 | Previous public live-mode responsive evidence; pending current-UI recapture |
+| `screenshots/01-initial-blocked.png` | 1600×900 | Deployed public live UI at commit `2610375`, captured in the initial `BLOCKED` state |
+| `screenshots/02-repair-proposed.png` | 1600×900 | Current local code in the built-in demo proposal state, visibly labeled `Built-in demo · no AI call` |
+| `screenshots/03-release-verified.png` | 1600×900 | Deployed public live UI at commit `2610375`, captured in the verified six-check state |
+| `screenshots/04-mobile-initial.png` | 390×844 | Responsive deployed public live UI at commit `2610375`, captured in a clean initial `BLOCKED` session |
 
 ## Content contract
 
@@ -24,23 +24,24 @@ submission. They use no third-party logos or brand marks.
 - The architecture asset reflects implemented boundaries: per-browser isolated
   sessions, same-origin mutations, a read-only planner, explicit reviewer
   approval, all six deterministic checks, a proof hash, and guarded undo.
-- GPT-5.6 is shown as the live read-only planner capability. The existing
-  live-mode captures document a previously deployed flow that completed
-  proposal, human approval, six deterministic checks, proof issuance, and
-  guarded undo; they are not the final latest-UI submission captures.
+- GPT-5.6 is shown as the live read-only planner capability. The cover and
+  live-mode captures document the current deployed UI at commit `2610375`:
+  the initial release gate, the verified six-check result, and the responsive
+  initial `BLOCKED` state.
 - The built-in demo follows the same validation and approval path without an AI
-  call. Its replacement proposal capture must visibly show
-  `Built-in demo · no AI call`.
+  call. Its proposal capture visibly shows `Built-in demo · no AI call` and
+  comes from the current local code.
 - The formula example is synthetic: `sin⁻¹(x) = 1/sin(x)` is corrected to
   `sin⁻¹(x) = arcsin(x)`.
 - The architecture and thumbnail pairs are explanatory compositions, not
   screenshots. They do not fabricate
   product screens, metrics, endorsements, prizes, or verification results.
-- `cover.png` and files under `screenshots/` are real captures of either the
-  public deployment or the local production build, but the current files
-  predate the latest UI wording. Recapture them before final submission and
-  preserve visible `gpt-5.6-sol live` or `Built-in demo · no AI call`
-  provenance in every replacement.
+- `cover.png`, `screenshots/01-initial-blocked.png`,
+  `screenshots/03-release-verified.png`, and
+  `screenshots/04-mobile-initial.png` are real captures of the public
+  deployment at commit `2610375`. `screenshots/02-repair-proposed.png` is a
+  real capture of the current local built-in demo path, with its no-AI
+  provenance visible in the interface.
 
 ## Export to PNG on macOS
 
@@ -82,13 +83,11 @@ xmllint --noout architecture.svg youtube-thumbnail.svg
 
 Before submission or upload:
 
-1. recapture the cover and all four UI screenshots from the final deployed
-   interface;
-2. visually inspect the exact exported files at 100% scale;
-3. keep important thumbnail text inside the existing safe margins;
-4. do not add third-party logos or unverified claims;
-5. use only screenshots captured separately from the real running application;
-6. retain this README as the provenance and export note for the asset pack.
+1. visually inspect the exact exported files at 100% scale;
+2. keep important thumbnail text inside the existing safe margins;
+3. do not add third-party logos or unverified claims;
+4. use only screenshots captured separately from the real running application;
+5. retain this README as the provenance and export note for the asset pack.
 
 Created for the LessonProof 2026 competition submission. No organizer logo or
 visual identity is used.

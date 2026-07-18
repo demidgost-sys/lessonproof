@@ -157,13 +157,13 @@ educational truth.
 
 | Initial release gate | Bounded repair proposal | Verified release |
 |---|---|---|
-| [![Blocked built-in demo state](submission/assets/screenshots/01-initial-blocked.png)](submission/assets/screenshots/01-initial-blocked.png) | [![Proposed repair state](submission/assets/screenshots/02-repair-proposed.png)](submission/assets/screenshots/02-repair-proposed.png) | [![Verified six-check state](submission/assets/screenshots/03-release-verified.png)](submission/assets/screenshots/03-release-verified.png) |
+| [![Blocked live release state](submission/assets/screenshots/01-initial-blocked.png)](submission/assets/screenshots/01-initial-blocked.png) | [![Built-in demo repair proposal](submission/assets/screenshots/02-repair-proposed.png)](submission/assets/screenshots/02-repair-proposed.png) | [![Verified live six-check state](submission/assets/screenshots/03-release-verified.png)](submission/assets/screenshots/03-release-verified.png) |
 
-These images document the preceding deployed interface and are temporarily
-stale relative to the latest local wording. They must be recaptured after the
-new interface is deployed and must not be used as the final submission gallery
-until then. The replacement proposal capture must visibly say
-`Built-in demo · no AI call`. See the
+The cover, initial, and verified captures show the deployed public live UI at
+commit `2610375`. The proposal capture shows the current local built-in demo
+path and visibly identifies that no AI call was made. The
+[responsive capture](submission/assets/screenshots/04-mobile-initial.png) shows
+the deployed live UI in a clean initial `BLOCKED` session. See the
 [architecture visual](submission/assets/architecture.png) and
 [asset provenance notes](submission/assets/README-assets.md).
 
