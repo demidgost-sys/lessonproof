@@ -12,6 +12,7 @@ coverage/
 *.log
 work/
 outputs/raw/
+output/playwright/
 secrets/
 recordings/raw/
 design-qa.md
