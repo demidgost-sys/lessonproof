@@ -34,7 +34,7 @@ The completed vertical slice is:
 | Public live safety | Same-origin mutation checks plus per-session, global, and concurrent analysis limits |
 | Product interface | Responsive evidence cockpit showing correction, evidence, exact diff, affected artifacts, checks, release state, proof hash, and undo |
 | Reproducibility | No-secret fixture mode, clean install path, Dockerfile, Render blueprint, release preflight, and CI |
-| Verification | 41 automated tests: engine 15, planner 7, API/session 11, UI 3, snapshot adapter 3, design guards 2 |
+| Verification | 42 automated tests: engine 15, planner 7, API/session 11, UI 4, snapshot adapter 3, design guards 2 |
 
 ## GPT-5.6 contribution
 
@@ -72,7 +72,7 @@ npm run check
 ```
 
 - TypeScript validation;
-- 41 automated tests across six test files;
+- 42 automated tests across six test files;
 - a Vite production build;
 - public package and Git-boundary preflight checks.
 

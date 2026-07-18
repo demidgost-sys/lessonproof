@@ -24,7 +24,7 @@ are synthetic and original.
 | Evidence and uncertainty discipline | General practice: preserve sources and fail closed on ambiguity | New exact-quote anchors, structured planner contract, visible blocked states, and stale-hash guards | Original code and synthetic fixtures |
 | LessonProof application | Did not exist | Domain engine, server API, browser interface, session isolation, live-analysis limits, deployment path, and documentation | Dated Git history; MIT license |
 | GPT-5.6 integration | Did not exist | Server-side Responses API adapter, strict schema, model-family check, safety identifier, normalized failure handling, and bounded smoke command | OpenAI service terms apply; key is not distributed |
-| Verification | Did not exist | 41 tests across engine, planner, API/session, interface, snapshot adapter, and design guards; typecheck, production build, and public release preflight | Reproducible repository commands |
+| Verification | Did not exist | 42 tests across engine, planner, API/session, interface, snapshot adapter, and design guards; typecheck, production build, and public release preflight | Reproducible repository commands |
 | Visual design | Did not exist | Original evidence-cockpit interface and CSS product mark | No external visual assets |
 
 ## Explicit non-reuse boundary

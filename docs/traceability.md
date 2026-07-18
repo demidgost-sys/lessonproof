@@ -29,10 +29,10 @@ proof.
 | Domain engine | 15 | lifecycle, evidence, stale state, fail-closed analysis, atomic apply, proof, undo |
 | GPT-5.6 planner adapter | 7 | request contract, strict schema, family check, full-body timeout, missing credentials, refusal, malformed output |
 | HTTP API and browser sessions | 11 | routes, errors, golden journey, cookies, isolation, expiry, rate limits, concurrency, same-origin mutations |
-| Interface | 3 | provenance/mode display, separate controls, error recovery |
+| Interface | 4 | provenance/mode display, separate controls, live-mode continuity, error recovery |
 | Snapshot adapter | 3 | stage projection, verified proof, guarded undo |
 | Design guards | 2 | Flat CSS, specific copy, and emoji-free interface source |
-| **Total** | **41** | End-to-end product and trust boundary |
+| **Total** | **42** | End-to-end product and trust boundary |
 
 `npm run check` also runs TypeScript validation, the production build, and the
 public-package preflight.
@@ -46,7 +46,7 @@ public-package preflight.
 | Is this a coherent product rather than a technical demo? | One continuous correction → proposal → approval → verification → proof journey in the evidence cockpit |
 | Who benefits? | Teachers and educational-content teams maintaining a lesson plus derived captions, claims, and release packages |
 | What is novel? | The product starts after an expert correction and turns that signal into a source-bound release contract |
-| How did Codex contribute? | Candidate and rule audit, clean-room product boundary, parallel implementation, 41-test verification, red-team review, deployment and submission hardening |
+| How did Codex contribute? | Candidate and rule audit, clean-room product boundary, parallel implementation, 42-test verification, red-team review, deployment and submission hardening |
 | What decisions remained human? | Track and product selection, synthetic scope, model authority boundary, approval requirement, deterministic release gate, and final public claims |
 
 ## Recording proof order
@@ -62,5 +62,5 @@ The clearest under-three-minute evidence sequence is:
    `1 caption fixed. 2 dependency proofs recomputed. 6 of 6 checks passed.`
    result;
 6. show the guarded undo condition;
-7. close on the architecture, 41-test count, concrete Codex contribution, and
+7. close on the architecture, 42-test count, concrete Codex contribution, and
    division of authority.

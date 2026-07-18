@@ -74,8 +74,8 @@ Run the complete verification suite:
 npm run check
 ```
 
-The suite currently covers 41 tests across the domain engine (15), GPT-5.6
-planner adapter (7), HTTP API and session boundary (11), interface (3), and
+The suite currently covers 42 tests across the domain engine (15), GPT-5.6
+planner adapter (7), HTTP API and session boundary (11), interface (4), and
 snapshot adapter (3), plus interface design guards (2). The same command also runs TypeScript validation, a
 production build, and public package checks.
 
