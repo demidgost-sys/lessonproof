@@ -96,6 +96,11 @@ approval, deterministic checks, and hash guards apply in both planner modes.
 If inference fails, refuses, times out, identifies the wrong model family, or
 returns an invalid plan, the release remains unchanged.
 
+The included Render blueprint deploys this live path with the API key held in
+the host secret manager. It limits anonymous traffic to two analyses per
+browser session, 30 analyses per 30-day process window, and one concurrent
+analysis; an external OpenAI project budget remains the final spending guard.
+
 ## How Codex and GPT-5.6 were used
 
 During Build Week, the creator directed Codex to audit candidate workflows and

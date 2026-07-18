@@ -15,4 +15,16 @@ services:
       - key: HOST
         value: 0.0.0.0
       - key: LESSONPROOF_PLANNER_MODE
-        value: fixture
+        value: openai
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
+        value: gpt-5.6-sol
+      - key: LESSONPROOF_ANALYSIS_WINDOW_MS
+        value: 2592000000
+      - key: LESSONPROOF_ANALYSIS_SESSION_LIMIT
+        value: 2
+      - key: LESSONPROOF_ANALYSIS_GLOBAL_LIMIT
+        value: 30
+      - key: LESSONPROOF_ANALYSIS_MAX_CONCURRENT
+        value: 1

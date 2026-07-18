@@ -110,9 +110,13 @@ docker build -t lessonproof .
 docker run --rm -p 8787:8787 lessonproof
 ```
 
-The included `render.yaml` supplies a reproducible Render deployment blueprint
-in fixture mode. A live deployment sets `LESSONPROOF_PLANNER_MODE=openai` and
-stores `OPENAI_API_KEY` in the platform secret manager.
+The included `render.yaml` supplies a reproducible live Render deployment
+blueprint. It sets `LESSONPROOF_PLANNER_MODE=openai`, asks the operator for an
+`OPENAI_API_KEY` through the platform secret manager, and bounds anonymous
+judge traffic to two analyses per browser session, 30 analyses per 30-day
+process window, and one concurrent analysis. These in-memory limits reset when
+the service restarts, so the OpenAI project should also have an external budget
+alert or cap.
 
 ## Public judge acceptance check
 
