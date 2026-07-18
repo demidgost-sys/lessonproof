@@ -20,12 +20,12 @@ are synthetic and original.
 |---|---|---|---|
 | Expert correction as a high-value signal | Practical tutoring and educational-content experience established the problem | New correction model, user journey, synthetic example, and release trace | Original implementation; no learner data copied |
 | Deterministic release discipline | General engineering practice: important changes need explicit validation | New six-check release contract, state machine, proof hash, and guarded undo | Original code and tests |
-| Correction-to-evaluation inspiration | A public Build Week story described converting practitioner corrections into targeted evaluation work | New Education-specific product binding one correction to exact evidence, a bounded patch, affected artifacts, and release proof | Public concept inspiration; original product and implementation |
+| Correction-to-evaluation inspiration | OpenAI's [“Building self-improving tax agents with Codex”](https://openai.com/index/building-self-improving-tax-agents-with-codex/) described turning practitioner corrections into targeted evaluation work | New Education-specific product binding one correction to exact evidence, a bounded patch, affected artifacts, and release proof | Public concept inspiration; original product and implementation |
 | Evidence and uncertainty discipline | General practice: preserve sources and fail closed on ambiguity | New exact-quote anchors, structured planner contract, visible blocked states, and stale-hash guards | Original code and synthetic fixtures |
 | LessonProof application | Did not exist | Domain engine, server API, browser interface, session isolation, live-analysis limits, deployment path, and documentation | Dated Git history; MIT license |
 | GPT-5.6 integration | Did not exist | Server-side Responses API adapter, strict schema, model-family check, safety identifier, normalized failure handling, and bounded smoke command | OpenAI service terms apply; key is not distributed |
 | Verification | Did not exist | 42 tests across engine, planner, API/session, interface, snapshot adapter, and design guards; typecheck, production build, and public release preflight | Reproducible repository commands |
-| Visual design | Did not exist | Original evidence-cockpit interface and CSS product mark | No external visual assets |
+| Visual design | Did not exist | Original evidence-cockpit composition and CSS product mark, using Phosphor icon components | Product composition and mark are original; `@phosphor-icons/react` 2.1.10 is used under its MIT license and recorded in `THIRD_PARTY_NOTICES.md` |
 
 ## Explicit non-reuse boundary
 

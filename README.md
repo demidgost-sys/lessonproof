@@ -176,7 +176,9 @@ the deployed live UI in a clean initial `BLOCKED` session. See the
 - [Before Build Week](BEFORE.md)
 - [Build Week result](AFTER.md)
 - [Security policy](SECURITY.md)
+- [Third-party notices](THIRD_PARTY_NOTICES.md)
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+LessonProof is MIT licensed. See [LICENSE](LICENSE). Third-party components
+retain their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

@@ -153,6 +153,7 @@ const requiredFiles = [
   "docs/provenance.md",
   "docs/traceability.md",
   "docs/testing.md",
+  "THIRD_PARTY_NOTICES.md",
 ];
 const missing = requiredFiles.filter(
   (path) => !existsSync(resolve(root, path)) || !trackedFiles.includes(path),
