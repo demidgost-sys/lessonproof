@@ -151,15 +151,17 @@ afterEach(() => {
   cleanup();
 });
 
-describe("LessonProof evidence cockpit", () => {
+describe("LessonProof Proof Ledger", () => {
   it("loads the synthetic release with visible provenance and model mode", async () => {
     render(<App api={apiMock()} />);
 
-    expect(await screen.findByRole("heading", { name: /correct the lesson/i })).toBeTruthy();
+    expect(await screen.findByRole("heading", { name: /lessonproof release review/i })).toBeTruthy();
     expect(screen.getByTestId("ai-mode").textContent).toContain("Deterministic fixture");
-    expect(screen.getByTestId("release-gate").textContent).toContain("READY");
+    expect(screen.getByTestId("release-gate").textContent).toContain("Source locked");
+    expect(screen.getByTestId("release-gate").textContent).toContain("Proposal locked");
+    expect(screen.getByText("The deterministic fixture can propose a patch only from the checked evidence shown above.")).toBeTruthy();
     expect(screen.getByText("00:03:23 → 00:03:28")).toBeTruthy();
-    expect(screen.getAllByText(/sin⁻¹\(x\) = 1\/sin\(x\)/)).toHaveLength(2);
+    expect(screen.getAllByText(/sin⁻¹\(x\) = 1\/sin\(x\)/).length).toBeGreaterThanOrEqual(2);
   });
 
   it("keeps analyze, human approval, apply, and guarded undo as separate actions", async () => {
@@ -175,13 +177,14 @@ describe("LessonProof evidence cockpit", () => {
     }));
     expect((await screen.findByTestId("plan-diff")).textContent).toContain("sin⁻¹(x) = arcsin(x)");
     expect(screen.getByTestId("plan-origin").textContent).toBe("Deterministic fixture");
+    expect(screen.getByText("Review fixture proposal")).toBeTruthy();
 
-    await user.click(screen.getByRole("button", { name: "Approve bounded repair" }));
+    await user.click(screen.getByRole("button", { name: "Approve bounded proposal" }));
     await waitFor(() => expect(api.approve).toHaveBeenCalledWith({
       planId: "plan-1",
       releaseHash: baselineHash,
     }));
-    expect(await screen.findByText("Ready for verification")).toBeTruthy();
+    expect(await screen.findByText("Verification ready")).toBeTruthy();
 
     await user.click(await screen.findByRole("button", { name: "Apply approved patch & verify" }));
     await waitFor(() => expect(api.apply).toHaveBeenCalledWith({
@@ -189,13 +192,13 @@ describe("LessonProof evidence cockpit", () => {
       releaseHash: baselineHash,
     }));
 
-    expect(await screen.findByText("Release verified")).toBeTruthy();
+    expect((await screen.findAllByText("Release verified")).length).toBeGreaterThanOrEqual(1);
     expect(screen.getByTestId("proof-hash").textContent).toContain(proofHash);
     expect(screen.getByRole("button", { name: "Applied & verified" })).toBeTruthy();
     expect(
-      screen.getByText("The hash-bound plan passed all six checks. The model never certified its own proposal."),
+      screen.getByText("The hash-bound plan passed every deterministic check. The model did not certify its own proposal."),
     ).toBeTruthy();
-    expect(screen.getByText("18 Jul 2026, 12:30 UTC")).toBeTruthy();
+    expect(screen.getAllByText("18 Jul 2026, 12:30 UTC").length).toBeGreaterThanOrEqual(1);
 
     await user.click(screen.getByRole("button", { name: "Undo verified change" }));
     await waitFor(() => expect(api.undo).toHaveBeenCalledWith({
