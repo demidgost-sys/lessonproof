@@ -52,8 +52,8 @@ npm run check
 This runs:
 
 - TypeScript validation;
-- 39 automated tests: 15 domain-engine, 7 planner-adapter, 11 HTTP API and
-  session, 3 interface, and 3 snapshot-adapter tests;
+- 41 automated tests: 15 domain-engine, 7 planner-adapter, 11 HTTP API and
+  session, 3 interface, 3 snapshot-adapter, and 2 design-guard tests;
 - the production frontend build;
 - the public package, content, secret-boundary, and Git-identity preflight.
 

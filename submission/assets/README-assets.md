@@ -1,14 +1,13 @@
 # LessonProof submission assets
 
-These are original, deterministic SVG assets for the LessonProof competition
-submission. They use no external images, fonts, logos, or third-party brand
-marks.
+These are original, deterministic assets for the LessonProof competition
+submission. They use no third-party logos or brand marks.
 
 ## Asset manifest
 
 | File | Canvas | Intended use |
 |---|---:|---|
-| `cover.svg` / `cover.png` | 1600×900 | Primary project cover for the submission page, repository social preview, and opening/closing video frame |
+| `cover.png` | 1600×900 | Primary project cover, captured from the real fixture-mode interface |
 | `architecture.svg` / `architecture.png` | 1600×900 | Architecture visual for the repository, submission description, and final demo-video explanation |
 | `youtube-thumbnail.svg` / `youtube-thumbnail.png` | 1280×720 | YouTube demo thumbnail |
 | `screenshots/01-initial-blocked.png` | 1600×900 | Real fixture-mode initial state with the unresolved correction and blocked gate |
@@ -18,8 +17,9 @@ marks.
 
 ## Content contract
 
-- The palette is derived from the implemented LessonProof UI: ink `#1d211b`,
-  paper `#fbfaf6`, orange `#d15f35`, blue `#305f8c`, and green `#1d6b49`.
+- The palette is derived from the implemented LessonProof UI: warm paper,
+  dark ink, clay for the active stage, blue for information, and green only
+  for completed or verified states.
 - The architecture asset reflects implemented boundaries: per-browser isolated
   sessions, same-origin mutations, a read-only planner, explicit reviewer
   approval, all six deterministic checks, a proof hash, and guarded undo.
@@ -29,26 +29,22 @@ marks.
   is identified as the judge-safe mode.
 - The formula example is synthetic: `sin⁻¹(x) = 1/sin(x)` is corrected to
   `sin⁻¹(x) = arcsin(x)`.
-- The cover, architecture, and thumbnail pairs are explanatory compositions,
-  not screenshots. They do not fabricate
+- The architecture and thumbnail pairs are explanatory compositions, not
+  screenshots. They do not fabricate
   product screens, metrics, endorsements, prizes, or verification results.
-- Files under `screenshots/` are real captures of the local production build.
+- `cover.png` and files under `screenshots/` are real captures of the local production build.
   They show `Deterministic fixture` in the header or inline proposal provenance;
   they prove the interface and complete state machine, not a provider call.
 
 ## Export to PNG on macOS
 
-Keep the SVG files as the canonical sources. The checked-in PNG files are the
-approved submission exports. To reproduce them on macOS, use headless Chrome:
+The checked-in PNG files are the approved submission exports. Keep SVG as the
+canonical source only for the architecture and video thumbnail. To reproduce
+those SVG exports on macOS, use headless Chrome:
 
 ```bash
 cd submission/assets
 assets_dir="$(pwd)"
-
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
-  --headless=new --disable-gpu --hide-scrollbars \
-  --force-device-scale-factor=1 --window-size=1600,900 \
-  --screenshot=cover.png "file://${assets_dir}/cover.svg"
 
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
   --headless=new --disable-gpu --hide-scrollbars \
@@ -75,7 +71,7 @@ resampling.
 ## Validation and safe use
 
 ```bash
-xmllint --noout cover.svg architecture.svg youtube-thumbnail.svg
+xmllint --noout architecture.svg youtube-thumbnail.svg
 ```
 
 Before submission or upload:

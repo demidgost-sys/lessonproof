@@ -155,7 +155,7 @@ describe("LessonProof evidence cockpit", () => {
   it("loads the synthetic release with visible provenance and model mode", async () => {
     render(<App api={apiMock()} />);
 
-    expect(await screen.findByRole("heading", { name: /ship the lesson/i })).toBeTruthy();
+    expect(await screen.findByRole("heading", { name: /correct the lesson/i })).toBeTruthy();
     expect(screen.getByTestId("ai-mode").textContent).toContain("Deterministic fixture");
     expect(screen.getByTestId("release-gate").textContent).toContain("READY");
     expect(screen.getByText("00:03:23 → 00:03:28")).toBeTruthy();

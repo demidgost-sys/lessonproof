@@ -31,7 +31,8 @@ proof.
 | HTTP API and browser sessions | 11 | routes, errors, golden journey, cookies, isolation, expiry, rate limits, concurrency, same-origin mutations |
 | Interface | 3 | provenance/mode display, separate controls, error recovery |
 | Snapshot adapter | 3 | stage projection, verified proof, guarded undo |
-| **Total** | **39** | End-to-end product and trust boundary |
+| Design guards | 2 | Flat CSS, specific copy, and emoji-free interface source |
+| **Total** | **41** | End-to-end product and trust boundary |
 
 `npm run check` also runs TypeScript validation, the production build, and the
 public-package preflight.
@@ -45,7 +46,7 @@ public-package preflight.
 | Is this a coherent product rather than a technical demo? | One continuous correction → proposal → approval → verification → proof journey in the evidence cockpit |
 | Who benefits? | Teachers and educational-content teams maintaining a lesson plus derived captions, claims, and release packages |
 | What is novel? | The product starts after an expert correction and turns that signal into a source-bound release contract |
-| How did Codex contribute? | Candidate and rule audit, clean-room product boundary, parallel implementation, 39-test verification, red-team review, deployment and submission hardening |
+| How did Codex contribute? | Candidate and rule audit, clean-room product boundary, parallel implementation, 41-test verification, red-team review, deployment and submission hardening |
 | What decisions remained human? | Track and product selection, synthetic scope, model authority boundary, approval requirement, deterministic release gate, and final public claims |
 
 ## Recording proof order
@@ -58,5 +59,5 @@ The clearest under-three-minute evidence sequence is:
 4. show that release remains blocked before approval;
 5. approve, apply, and show six passing checks plus the changed proof hash;
 6. show the guarded undo condition;
-7. close on the architecture, 39-test count, concrete Codex contribution, and
+7. close on the architecture, 41-test count, concrete Codex contribution, and
    division of authority.

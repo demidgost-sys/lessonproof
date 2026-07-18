@@ -47,6 +47,24 @@ function stageState(current: WorkflowPhase, stage: WorkflowPhase): "complete" | 
   return "future";
 }
 
+function stageLabel(state: ReturnType<typeof stageState>): string {
+  if (state === "complete") return "Done";
+  if (state === "active") return "Now";
+  return "Next";
+}
+
+function StageControls({ state }: { state: ReturnType<typeof stageState> }) {
+  return (
+    <span className="stage-card__controls">
+      <span className="stage-state">{stageLabel(state)}</span>
+      <span className="stage-toggle" aria-hidden="true">
+        <span className="stage-toggle__open">Hide</span>
+        <span className="stage-toggle__closed">Show</span>
+      </span>
+    </span>
+  );
+}
+
 function EvidenceCard({ evidence }: { evidence: EvidenceAnchor }) {
   return (
     <article className="evidence-card" aria-label={`Evidence from ${evidence.sourceLabel}`}>
@@ -55,7 +73,7 @@ function EvidenceCard({ evidence }: { evidence: EvidenceAnchor }) {
         <strong>{evidence.locator}</strong>
       </div>
       <blockquote>“{evidence.excerpt}”</blockquote>
-      <span className="evidence-card__anchor">Source-bound · {evidence.id}</span>
+      <span className="evidence-card__anchor">Source-bound / {evidence.id}</span>
     </article>
   );
 }
@@ -63,7 +81,7 @@ function EvidenceCard({ evidence }: { evidence: EvidenceAnchor }) {
 function EmptyStage({ title, body }: { title: string; body: string }) {
   return (
     <div className="empty-stage">
-      <span aria-hidden="true">→</span>
+      <span className="empty-stage__label">Next gate</span>
       <strong>{title}</strong>
       <p>{body}</p>
     </div>
@@ -185,6 +203,9 @@ export default function App({ api: providedApi }: AppProps) {
   const linkedEvidence = state.plan
     ? state.plan.evidenceIds.map((id) => evidenceById.get(id)).filter((item): item is EvidenceAnchor => Boolean(item))
     : state.evidence;
+  const correctionStage = stageState(state.phase, "correction");
+  const repairStage = stageState(state.phase, "repair");
+  const proofStage = stageState(state.phase, "proof");
 
   return (
     <div className="app-shell">
@@ -200,17 +221,17 @@ export default function App({ api: providedApi }: AppProps) {
               ? `${state.plan?.plannerModel ?? state.model ?? "GPT-5.6"} live`
               : "Deterministic fixture"}
           </span>
-          <span className="event-badge">Build Week · Education</span>
+          <span className="event-badge">OpenAI Build Week 2026</span>
         </div>
       </header>
 
       <main id="main">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero__copy">
-            <p className="eyebrow">Expert correction → verified release</p>
-            <h1 id="hero-title">Ship the lesson you meant to teach.</h1>
+            <p className="eyebrow">Expert correction / verified release</p>
+            <h1 id="hero-title">Correct the lesson. <em>Prove the release.</em></h1>
             <p className="hero__lede">
-              LessonProof turns one expert correction into an evidence-bound repair, then earns a new release proof through deterministic checks.
+              LessonProof binds one expert correction to source evidence, shows the exact patch, and releases only after deterministic checks pass.
             </p>
           </div>
           <aside
@@ -244,16 +265,20 @@ export default function App({ api: providedApi }: AppProps) {
         </section>
 
         <section className="control-principle" aria-label="Safety model">
-          <div><span>01</span><strong>AI proposes</strong><small>Reason over bounded evidence</small></div>
-          <div><span>02</span><strong>Reviewer approves</strong><small>No silent production edits</small></div>
-          <div><span>03</span><strong>Checks decide</strong><small>Proof only after invariants pass</small></div>
+          <div>
+            <span>01</span>
+            <strong>{state.mode === "live" ? "GPT-5.6 proposes" : "Fixture proposes"}</strong>
+            <small>Bounded by cited evidence</small>
+          </div>
+          <div><span>02</span><strong>Reviewer approves</strong><small>Plan and release hash recorded</small></div>
+          <div><span>03</span><strong>Checks release</strong><small>Six deterministic invariants</small></div>
         </section>
 
         {error && (
           <div className="error-banner" role="alert">
             <strong>Action stopped.</strong>
             <span>{error}</span>
-            <button type="button" onClick={() => setError(null)} aria-label="Dismiss error">×</button>
+            <button type="button" onClick={() => setError(null)} aria-label="Dismiss error">Dismiss</button>
           </div>
         )}
 
@@ -264,14 +289,15 @@ export default function App({ api: providedApi }: AppProps) {
           aria-label="Correction verification workflow"
           aria-busy={busy}
         >
-          <li className={`stage-card stage-card--${stageState(state.phase, "correction")}`}>
-            <header className="stage-card__header">
-              <span className="stage-number">1</span>
-              <div><p>Correction</p><h2>Bind the expert signal</h2></div>
-              <span className="stage-state">{stageState(state.phase, "correction")}</span>
-            </header>
+          <li className={`stage-card stage-card--${correctionStage}`}>
+            <details open={correctionStage !== "complete"}>
+              <summary className="stage-card__header">
+                <span className="stage-number">1</span>
+                <div><p>Correction</p><h2>Bind the correction</h2></div>
+                <StageControls state={correctionStage} />
+              </summary>
 
-            <form onSubmit={handleAnalyze} className="correction-form">
+              <form onSubmit={handleAnalyze} className="correction-form">
               <label htmlFor="correction">Expert correction</label>
               <textarea
                 id="correction"
@@ -292,18 +318,20 @@ export default function App({ api: providedApi }: AppProps) {
               >
                 {pending === "analyze" ? "Analyzing bounded evidence…" : "Analyze correction"}
               </button>
-            </form>
+              </form>
+            </details>
           </li>
 
-          <li className={`stage-card stage-card--${stageState(state.phase, "repair")}`}>
-            <header className="stage-card__header">
-              <span className="stage-number">2</span>
-              <div><p>Bounded repair</p><h2>Review the exact change</h2></div>
-              <span className="stage-state">{stageState(state.phase, "repair")}</span>
-            </header>
+          <li className={`stage-card stage-card--${repairStage}`}>
+            <details open={repairStage !== "complete"}>
+              <summary className="stage-card__header">
+                <span className="stage-number">2</span>
+                <div><p>Bounded repair</p><h2>Inspect the exact patch</h2></div>
+                <StageControls state={repairStage} />
+              </summary>
 
-            {state.plan ? (
-              <div className="repair-content">
+              {state.plan ? (
+                <div className="repair-content">
                 <div className="plan-summary">
                   <div className="plan-summary__meta">
                     <span className="label">Repair proposal</span>
@@ -385,25 +413,27 @@ export default function App({ api: providedApi }: AppProps) {
                         : "The approved plan is hash-bound. The release stays blocked unless every check passes."}
                   </p>
                 )}
-              </div>
-            ) : (
-              <EmptyStage title="No repair proposed" body="Analyze the correction to create an evidence-bound, reviewable patch." />
-            )}
+                </div>
+              ) : (
+                <EmptyStage title="No patch yet" body="Analyze the correction to create a source-bound patch for review." />
+              )}
+            </details>
           </li>
 
-          <li className={`stage-card stage-card--${stageState(state.phase, "proof")}`}>
-            <header className="stage-card__header">
-              <span className="stage-number">3</span>
-              <div><p>Verified proof</p><h2>Earn the release gate</h2></div>
-              <span className="stage-state">{stageState(state.phase, "proof")}</span>
-            </header>
+          <li className={`stage-card stage-card--${proofStage}`}>
+            <details open={proofStage !== "complete"}>
+              <summary className="stage-card__header">
+                <span className="stage-number">3</span>
+                <div><p>Release proof</p><h2>Verify the release</h2></div>
+                <StageControls state={proofStage} />
+              </summary>
 
-            {state.proof ? (
-              <div className="proof-content">
-                <div className="proof-seal" aria-label="Release verified">
-                  <span aria-hidden="true">✓</span>
-                  <div><small>All invariants passed</small><strong>Release verified</strong></div>
-                </div>
+              {state.proof ? (
+                <div className="proof-content">
+                  <div className="proof-seal" aria-label="Release verified">
+                    <span className="proof-seal__status">Passed</span>
+                    <div><small>All invariants passed</small><strong>Release verified</strong></div>
+                  </div>
                 <CheckList checks={state.proof.checks} />
                 <div className="hash-card">
                   <span className="label">New proof hash</span>
@@ -423,9 +453,9 @@ export default function App({ api: providedApi }: AppProps) {
                   {pending === "undo" ? "Checking proof guard…" : "Undo verified change"}
                 </button>
                 <p className="approval-note">Undo is allowed only while the current release still matches this proof hash.</p>
-              </div>
-            ) : (
-              <EmptyStage
+                </div>
+              ) : (
+                <EmptyStage
                 title={
                   state.permissions.canApply
                     ? "Ready for verification"
@@ -440,8 +470,9 @@ export default function App({ api: providedApi }: AppProps) {
                       ? "Approve the bounded patch. Deterministic checks—not the model—will decide the release state."
                       : "A proof hash appears only after an approved repair passes every release check."
                 }
-              />
-            )}
+                />
+              )}
+            </details>
           </li>
         </ol>
 
