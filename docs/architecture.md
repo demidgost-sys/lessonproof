@@ -51,7 +51,7 @@ Default bounds are:
 - two concurrent live analyses.
 
 All values are deployment-configurable. Fixture analysis does not consume the
-live-model budget.
+live-model request allowance.
 
 The OpenAI `safety_identifier` is a one-way SHA-256-derived value with a product
 prefix. The raw browser cookie is never sent to the model provider.

@@ -18,7 +18,7 @@ proof.
 | Verified release receives a proof hash | Full new hash, previous hash, version, and verification time are visible | `src/domain/hash.ts`, `src/domain/engine.ts`, `src/client/App.tsx` | Engine, API, and UI proof tests |
 | Undo is hash-guarded | Undo control explains its proof-hash condition | `LessonProofEngine.undo` | Exact restore, stale hash, and journal-integrity tests |
 | Browser workflows are isolated | Each browser can reset and progress independently | `src/server/session.ts`, `src/server/app.ts` | Cookie, isolation, expiry, eviction, and concurrent-mutation tests |
-| Live model budget is bounded | Rate-limit errors are presented without changing release state | `LiveAnalysisGuard`, stable API errors | Per-session, global, and concurrency limit tests |
+| Live model traffic is bounded | Rate-limit errors are presented without changing release state | `LiveAnalysisGuard`, stable API errors | Per-session, global, and concurrency limit tests |
 | No learner data is required | Entire golden journey uses bundled synthetic content | Fixture inventory, `SECURITY.md`, public content scan | Fixture and public-package preflight tests |
 | Judge can reproduce the app | README and testing guide provide a no-secret route | `package.json`, Dockerfile, Render blueprint, same-origin server | Clean commands, production build, API health, and public preflight |
 
