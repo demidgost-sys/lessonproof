@@ -29,7 +29,6 @@ interface LedgerStepProps {
   status: string;
   tone: Tone;
   body: string;
-  meta: string;
 }
 
 function shortHash(hash: string): string {
@@ -60,7 +59,7 @@ function StatusTag({ tone, children }: { tone: Tone; children: string }) {
   return <span className={`status-tag status-tag--${tone}`}>{children}</span>;
 }
 
-function LedgerStep({ number, title, status, tone, body, meta }: LedgerStepProps) {
+function LedgerStep({ number, title, status, tone, body }: LedgerStepProps) {
   return (
     <li className={`ledger-step ledger-step--${tone}`}>
       <span className="ledger-step__number" aria-hidden="true">{number}</span>
@@ -70,7 +69,6 @@ function LedgerStep({ number, title, status, tone, body, meta }: LedgerStepProps
           <StatusTag tone={tone}>{status}</StatusTag>
         </div>
         <p>{body}</p>
-        <small>{meta}</small>
       </div>
     </li>
   );
@@ -85,32 +83,26 @@ function EvidenceConflict({ state }: { state: WorkflowState }) {
   return (
     <section className="panel conflict-panel" aria-labelledby="conflict-title">
       <div className="panel__heading">
-        <h2 id="conflict-title">{repaired ? "Verified repair summary" : "Evidence conflict summary"}</h2>
+        <h2 id="conflict-title">{repaired ? "What changed" : "Problem and trusted source"}</h2>
       </div>
       <div className="conflict-grid">
         <article className="conflict-claim conflict-claim--incorrect">
           <div className="conflict-claim__meta">
-            <span>{repaired ? "Caption before repair" : "Caption in release"}</span>
+            <span>{repaired ? "Before" : "Current caption"}</span>
             <StatusTag tone={repaired ? "gray" : "red"}>{repaired ? "Replaced" : "Wrong"}</StatusTag>
           </div>
           <p>
             At 03:24, the caption {repaired ? "claimed" : "claims"} <strong>{change?.before ?? captionEvidence?.excerpt ?? "No caption claim found."}</strong>
           </p>
-          {captionEvidence && <small>{captionEvidence.sourceLabel} / {captionEvidence.locator}</small>}
         </article>
         <article className={`conflict-claim ${repaired || trustedEvidence ? "conflict-claim--checked" : "conflict-claim--unavailable"}`}>
           <div className="conflict-claim__meta">
-            <span>{repaired ? "Caption in verified release" : trustedEvidence ? "Trusted teaching note" : "Checked source unavailable"}</span>
+            <span>{repaired ? "After" : trustedEvidence ? "Trusted source" : "Trusted source unavailable"}</span>
             <StatusTag tone={repaired || trustedEvidence ? "green" : "red"}>{repaired ? "Verified" : trustedEvidence ? "Checked" : "Unavailable"}</StatusTag>
           </div>
           <p>
             {repaired ? "The verified caption states" : trustedEvidence ? "The checked source states" : "Review is blocked because"} <strong>{repaired ? change?.after ?? "No applied claim found." : trustedEvidence?.excerpt ?? "no checked teaching-source anchor is available."}</strong>
           </p>
-          {repaired
-            ? <small>{state.release.version} / {shortHash(state.release.currentHash)}</small>
-            : trustedEvidence
-              ? <small>{trustedEvidence.sourceLabel} / {trustedEvidence.locator}</small>
-              : <small>Fail closed / source anchor required</small>}
         </article>
       </div>
     </section>
@@ -121,8 +113,8 @@ function EvidencePanel({ evidence }: { evidence: EvidenceAnchor[] }) {
   return (
     <section className="panel evidence-panel" aria-labelledby="evidence-title">
       <div className="panel__heading panel__heading--split">
-        <h2 id="evidence-title">Cited evidence</h2>
-        <span>{evidence.length} checked anchor{evidence.length === 1 ? "" : "s"}</span>
+        <h2 id="evidence-title">Supporting evidence</h2>
+        <span>{evidence.length} exact evidence item{evidence.length === 1 ? "" : "s"}</span>
       </div>
       <div className="evidence-rows">
         {evidence.map((item, index) => (
@@ -131,13 +123,23 @@ function EvidencePanel({ evidence }: { evidence: EvidenceAnchor[] }) {
             <div>
               <div className="evidence-row__meta">
                 <strong>{item.sourceLabel}</strong>
-                <code>{item.locator}</code>
               </div>
               <blockquote>{item.excerpt}</blockquote>
             </div>
           </article>
         ))}
       </div>
+      <details className="technical-details evidence-technical-details" data-testid="evidence-technical-details">
+        <summary>Technical details<span className="sr-only"> for supporting evidence</span></summary>
+        <dl className="technical-details__list">
+          {evidence.map((item, index) => (
+            <div key={item.id}>
+              <dt>Evidence item {index + 1}</dt>
+              <dd><code>{item.sourceLabel} / {item.locator}</code></dd>
+            </div>
+          ))}
+        </dl>
+      </details>
     </section>
   );
 }
@@ -158,21 +160,22 @@ function CorrectionEditor({
   return (
     <section className="panel correction-panel" aria-labelledby="correction-title">
       <div className="panel__heading panel__heading--split">
-        <h2 id="correction-title">Correction input</h2>
+        <h2 id="correction-title">Correction request</h2>
         <span>{state.correction.authorRole}</span>
       </div>
       <form id="correction-form" onSubmit={onSubmit} className="correction-form">
-        <label htmlFor="correction">Expert correction</label>
+        <label htmlFor="correction">What should change?</label>
         <textarea
           id="correction"
+          aria-describedby="correction-help correction-count"
           value={correction}
           onChange={(event) => onCorrection(event.target.value)}
           rows={4}
           disabled={!state.permissions.canAnalyze || busy}
         />
         <div className="field-meta">
-          <span>Bound only to cited evidence</span>
-          <span>{correction.length} characters</span>
+          <span id="correction-help">Uses only the exact evidence above</span>
+          <span id="correction-count">{correction.length} characters</span>
         </div>
       </form>
     </section>
@@ -182,36 +185,41 @@ function CorrectionEditor({
 function ProposalPanel({ state, evidence }: { state: WorkflowState; evidence: EvidenceAnchor[] }) {
   if (!state.plan) return null;
   const repaired = isVerified(state);
+  const suggestionTitle = repaired
+    ? "Applied change"
+    : state.plan.status === "approved"
+      ? "Approved change"
+      : state.mode === "live" ? "GPT-5.6 suggestion" : "Demo suggestion";
+  const plainSummary = repaired
+    ? "Your approved change is present in the release."
+    : state.plan.status === "approved"
+      ? "You approved this exact change. The synthetic release has not changed yet."
+      : state.mode === "live"
+        ? "GPT-5.6 suggested one exact replacement."
+        : "The built-in demo suggested one exact replacement.";
 
   return (
     <section className="panel proposal-panel" aria-labelledby="proposal-title">
       <div className="panel__heading panel__heading--split">
         <div className="panel__title-row">
-          <h2 id="proposal-title">
-            {repaired
-              ? "Applied bounded patch"
-              : state.plan.status === "approved"
-                ? "Approved bounded patch"
-                : state.mode === "live" ? "GPT-5.6 proposed patch" : "Fixture-proposed patch"}
-          </h2>
+          <h2 id="proposal-title">{suggestionTitle}</h2>
           <StatusTag tone={state.plan.blocked ? "red" : "blue"}>
-            {state.plan.blocked ? "Blocked" : `${state.plan.changes.length} atomic change${state.plan.changes.length === 1 ? "" : "s"}`}
+            {state.plan.blocked ? "Blocked" : `${state.plan.changes.length} change${state.plan.changes.length === 1 ? "" : "s"}`}
           </StatusTag>
         </div>
         <span data-testid="plan-origin">
-          {state.mode === "live" ? `${state.plan.plannerModel} live` : "Deterministic fixture"}
+          {state.mode === "live" ? `${state.plan.plannerModel} live` : "Built-in demo"}
         </span>
       </div>
 
       <div className="proposal-summary">
-        <strong>{state.plan.summary}</strong>
-        <span>{state.plan.rationale}</span>
+        <strong>{plainSummary}</strong>
       </div>
 
       {state.plan.blocked ? (
         <div className="blocked-plan" role="status">
-          <strong>No patch can be approved.</strong>
-          <span>Refine the correction or reset the synthetic release. No artifacts were changed.</span>
+          <strong>No safe suggestion is available.</strong>
+          <span>Change the request or reset the demo. The synthetic release has not changed.</span>
         </div>
       ) : (
         <div className="patch-list" data-testid="plan-diff" aria-label="Proposed diff">
@@ -219,15 +227,14 @@ function ProposalPanel({ state, evidence }: { state: WorkflowState; evidence: Ev
             <article className="patch" key={change.id}>
               <div className="patch__meta">
                 <strong>{change.artifact}</strong>
-                <code>{change.locator}</code>
               </div>
               <div className="patch__diff">
                 <div className="patch__side patch__side--before">
-                  <span>Before / incorrect</span>
+                  <span>Before</span>
                   <p>{change.before}</p>
                 </div>
                 <div className="patch__side patch__side--after">
-                  <span>After / proposed</span>
+                  <span>{repaired ? "After / applied" : "After / suggested"}</span>
                   <p>{change.after}</p>
                 </div>
               </div>
@@ -237,19 +244,30 @@ function ProposalPanel({ state, evidence }: { state: WorkflowState; evidence: Ev
       )}
 
       {!state.plan.blocked && (
-        <div className="proposal-details">
-          <dl>
-            <div><dt>Edit type</dt><dd>Replace text</dd></div>
-            <div><dt>Scope</dt><dd>{state.plan.changes.length === 1 ? "One caption claim" : `${state.plan.changes.length} bounded claims`}</dd></div>
-            <div><dt>Invalidates</dt><dd>{state.plan.staleArtifacts.length} derived artifact{state.plan.staleArtifacts.length === 1 ? "" : "s"}</dd></div>
-          </dl>
-          <div className="anchor-list">
-            <span>Cited evidence anchors ({evidence.length})</span>
-            {evidence.map((item, index) => (
-              <p key={item.id}><b>{index + 1}</b><code>{item.sourceLabel} / {item.locator}</code></p>
-            ))}
+        <details className="technical-details proposal-technical-details" data-testid="plan-technical-details">
+          <summary>Technical details<span className="sr-only"> for the suggested change</span></summary>
+          <div className="proposal-details">
+            <dl>
+              <div><dt>Plan ID</dt><dd>{state.plan.id}</dd></div>
+              <div><dt>Planner</dt><dd>{state.plan.plannerModel}</dd></div>
+              <div><dt>System summary</dt><dd>{state.plan.summary}</dd></div>
+              <div><dt>Reason</dt><dd>{state.plan.rationale}</dd></div>
+              <div><dt>Edit type</dt><dd>Replace text</dd></div>
+              <div><dt>Scope</dt><dd>{state.plan.changes.length === 1 ? "One caption claim" : `${state.plan.changes.length} caption claims`}</dd></div>
+              <div><dt>Dependency proof record IDs</dt><dd>{state.plan.staleArtifacts.join(", ") || "None"}</dd></div>
+            </dl>
+            <div className="anchor-list">
+              <span>Evidence anchors ({evidence.length})</span>
+              {evidence.map((item, index) => (
+                <p key={item.id}><b>{index + 1}</b><code>{item.sourceLabel} / {item.locator}</code></p>
+              ))}
+              <span className="anchor-list__label">Change locations</span>
+              {state.plan.changes.map((change, index) => (
+                <p key={change.id}><b>{index + 1}</b><code>{change.artifact} / {change.locator}</code></p>
+              ))}
+            </div>
           </div>
-        </div>
+        </details>
       )}
     </section>
   );
@@ -257,34 +275,44 @@ function ProposalPanel({ state, evidence }: { state: WorkflowState; evidence: Ev
 
 function ProofPanel({ state }: { state: WorkflowState }) {
   if (!state.proof) return null;
+  const passedChecks = state.proof.checks.filter((check) => check.status === "pass").length;
+  const checkCount = state.proof.checks.length;
+  const changeCount = state.plan?.changes.length ?? 0;
+  const dependencyProofCount = state.plan?.staleArtifacts.length ?? 0;
 
   return (
     <section className="panel proof-panel" aria-labelledby="proof-title">
       <div className="panel__heading panel__heading--split">
         <div className="panel__title-row">
-          <h2 id="proof-title">Deterministic release proof</h2>
+          <h2 id="proof-title">Verification result</h2>
           <StatusTag tone="green">Verified</StatusTag>
         </div>
         <span>{formatTimestamp(state.proof.verifiedAt)}</span>
       </div>
+      <p className="verified-outcome" data-testid="verified-outcome" role="status">
+        {changeCount} caption{changeCount === 1 ? "" : "s"} fixed. {dependencyProofCount} dependency proof{dependencyProofCount === 1 ? "" : "s"} recomputed. {passedChecks} of {checkCount} checks passed.
+      </p>
       <div className="proof-grid">
-        <div className="proof-seal" aria-label="Release verified">
+        <div className="proof-seal" aria-label="Change verified">
           <CheckCircle size={28} weight="fill" aria-hidden="true" />
           <div>
-            <small>All invariants passed</small>
-            <strong>Release verified</strong>
+            <small>All checks passed</small>
+            <strong>Change verified</strong>
           </div>
         </div>
         <CheckList checks={state.proof.checks} />
-        <div className="hash-card">
-          <span>New proof hash</span>
-          <code data-testid="proof-hash">{state.proof.hash}</code>
-          <dl>
-            <div><dt>Previous</dt><dd>{shortHash(state.proof.previousHash)}</dd></div>
-            <div><dt>Release</dt><dd>{state.proof.releaseVersion}</dd></div>
-            <div><dt>Verified</dt><dd>{formatTimestamp(state.proof.verifiedAt)}</dd></div>
-          </dl>
-        </div>
+        <details className="technical-details proof-technical-details" data-testid="proof-technical-details">
+          <summary>Technical details<span className="sr-only"> for verification</span></summary>
+          <div className="hash-card">
+            <span>New proof hash</span>
+            <code data-testid="proof-hash">{state.proof.hash}</code>
+            <dl>
+              <div><dt>Previous</dt><dd>{shortHash(state.proof.previousHash)}</dd></div>
+              <div><dt>Release</dt><dd>{state.proof.releaseVersion}</dd></div>
+              <div><dt>Verified</dt><dd>{formatTimestamp(state.proof.verifiedAt)}</dd></div>
+            </dl>
+          </div>
+        </details>
       </div>
     </section>
   );
@@ -430,14 +458,14 @@ export default function App({ api: providedApi }: AppProps) {
   const progressSteps = isInitial
     ? [
         { step: 1, label: "Review correction" },
-        { step: 2, label: "Proposal locked" },
-        { step: 3, label: "Approval locked" },
-        { step: 4, label: "Proof locked" },
+        { step: 2, label: "Suggestion locked" },
+        { step: 3, label: "Your approval locked" },
+        { step: 4, label: "Final checks locked" },
       ]
     : [
-        { step: 2, label: blockedPlan ? "Proposal blocked" : proposalPending ? state.mode === "live" ? "Review GPT-5.6 proposal" : "Review fixture proposal" : "Proposal recorded" },
-        { step: 3, label: approvalRecorded || verified ? "Approval recorded" : "Approval pending" },
-        { step: 4, label: verified ? "Release verified" : state.permissions.canApply ? "Verification ready" : "Proof locked" },
+        { step: 2, label: blockedPlan ? "Suggestion blocked" : proposalPending ? state.mode === "live" ? "Review GPT-5.6 suggestion" : "Review demo suggestion" : "Suggestion recorded" },
+        { step: 3, label: approvalRecorded || verified ? "Your approval recorded" : "Your approval pending" },
+        { step: 4, label: verified ? "Final checks passed" : state.permissions.canApply ? "Ready for final checks" : "Final checks locked" },
       ];
   const gateTone: Tone = verified
     ? "green"
@@ -447,21 +475,23 @@ export default function App({ api: providedApi }: AppProps) {
         ? "amber"
         : "blue";
   const primaryLabel = state.permissions.canAnalyze
-    ? pending === "analyze" ? "Analyzing bounded evidence…" : "Analyze correction"
+    ? pending === "analyze"
+      ? state.mode === "live" ? "Asking GPT-5.6…" : "Preparing suggestion…"
+      : state.mode === "live" ? "Ask GPT-5.6 for a suggestion" : "Show a safe suggestion"
     : state.permissions.canApprove
-      ? pending === "approve" ? "Recording approval…" : "Approve bounded proposal"
+      ? pending === "approve" ? "Recording your approval…" : "Approve this exact change"
       : state.permissions.canApply
-        ? pending === "apply" ? "Applying and verifying…" : "Apply approved patch & verify"
-        : verified ? "Applied & verified" : "Action unavailable";
+        ? pending === "apply" ? "Applying change and checking…" : `Apply change & run ${checkCount} ${checkCount === 1 ? "check" : "checks"}`
+        : verified ? "Change verified" : "Action unavailable";
   const approvalNote = state.permissions.canApprove
-    ? "Approval records this plan ID against the current release hash. It does not change any artifact."
+    ? "You are approving only the exact change shown above. The synthetic release will not change yet."
     : state.permissions.canApply
-      ? "The approved plan is hash-bound. Every deterministic check must pass before a proof is issued."
+      ? "You approved this exact change. LessonProof will update the synthetic caption record, recompute the affected dependency proof records, and run every check."
       : verified
-        ? "The hash-bound plan passed every deterministic check. The model did not certify its own proposal."
+        ? "Your approved change is present, the declared dependency proof records are current, and every check passed."
         : state.mode === "live"
-          ? "GPT-5.6 can propose a patch only from the checked evidence shown above."
-          : "The deterministic fixture can propose a patch only from the checked evidence shown above.";
+          ? "GPT-5.6 can suggest one change from the exact evidence. It cannot approve or apply it."
+          : "The built-in demo shows one safe suggestion. No AI call is made.";
 
   return (
     <div className="app-shell">
@@ -473,7 +503,7 @@ export default function App({ api: providedApi }: AppProps) {
         <div className="header-badges">
           <span className={`mode-badge mode-badge--${state.mode}`} data-testid="ai-mode">
             <span aria-hidden="true" />
-            {state.mode === "live" ? `${state.plan?.plannerModel ?? state.model ?? "GPT-5.6"} live` : "Deterministic fixture"}
+            {state.mode === "live" ? `${state.plan?.plannerModel ?? state.model ?? "GPT-5.6"} live` : "Built-in demo · no AI call"}
           </span>
           <span className="event-badge">OpenAI Build Week 2026</span>
         </div>
@@ -519,7 +549,7 @@ export default function App({ api: providedApi }: AppProps) {
           <ProposalPanel state={state} evidence={linkedEvidence} />
           <ProofPanel state={state} />
 
-          <section className="decision-bar" aria-label="Current review action" aria-busy={busy}>
+          <section className={`decision-bar${verified ? " decision-bar--complete" : ""}`} aria-label="Current review action" aria-busy={busy}>
             <button
               className="button button--secondary decision-bar__secondary"
               type="button"
@@ -529,7 +559,7 @@ export default function App({ api: providedApi }: AppProps) {
               {verified ? <ArrowCounterClockwise size={20} aria-hidden="true" /> : <X size={20} aria-hidden="true" />}
               {verified
                 ? pending === "undo" ? "Checking proof guard…" : "Undo verified change"
-                : state.permissions.canApprove ? pending === "reject" ? "Rejecting proposal…" : "Reject proposal" : pending === "reset" ? "Resetting…" : "Reset demo"}
+                : state.permissions.canApprove ? pending === "reject" ? "Rejecting suggestion…" : "Reject suggestion" : pending === "reset" ? "Resetting…" : "Reset demo"}
             </button>
             <p>{approvalNote}</p>
             <div className="decision-bar__primary">
@@ -545,12 +575,12 @@ export default function App({ api: providedApi }: AppProps) {
               </button>
               <small>
                 {verified
-                  ? "Proof hash issued."
+                  ? "Verification complete."
                   : state.permissions.canApply
-                    ? "No artifact changes until Apply & verify."
+                    ? "The synthetic caption record changes and dependency proof records are recomputed only after you choose Apply."
                     : state.permissions.canApprove
-                      ? "No artifact changes before approval."
-                      : "Analysis cannot change artifacts."}
+                      ? "Approving does not change the synthetic release."
+                      : "This step cannot change the synthetic release."}
               </small>
             </div>
           </section>
@@ -566,66 +596,62 @@ export default function App({ api: providedApi }: AppProps) {
           <ol className="ledger-timeline">
             <LedgerStep
               number={1}
-              title="Source locked"
-              status="Locked"
+              title="Evidence anchored"
+              status="Exact"
               tone="green"
-              body={`The correction is grounded in ${state.evidence.length} checked evidence anchor${state.evidence.length === 1 ? "" : "s"}.`}
-              meta={`Release baseline ${shortHash(state.release.baselineHash)}`}
+              body={`The correction is linked to ${state.evidence.length} exact evidence item${state.evidence.length === 1 ? "" : "s"}.`}
             />
             <LedgerStep
               number={2}
-              title={state.plan ? approvalRecorded || verified ? "Proposal recorded" : "Proposal ready" : "Proposal locked"}
+              title={state.plan ? approvalRecorded || verified ? "Suggestion recorded" : "Suggestion ready" : "Suggestion locked"}
               status={state.plan ? state.plan.blocked ? "Blocked" : approvalRecorded || verified ? "Recorded" : "Ready" : "Locked"}
               tone={state.plan ? state.plan.blocked ? "red" : "blue" : "gray"}
-              body={state.plan ? state.plan.summary : "Analyze the correction to request a bounded proposal."}
-              meta={state.plan ? `Plan ${shortHash(state.plan.id)}` : "No plan recorded"}
+              body={state.plan ? state.plan.blocked ? "No safe change can be suggested from the exact evidence." : `${state.plan.changes.length} exact change${state.plan.changes.length === 1 ? " is" : "s are"} ready for review.` : "Review the correction to see one evidence-bound suggestion."}
             />
             <LedgerStep
               number={3}
-              title={approvalRecorded || verified ? "Human approval recorded" : "Human approval pending"}
+              title={approvalRecorded || verified ? "Your approval recorded" : "Your approval pending"}
               status={approvalRecorded || verified ? "Recorded" : proposalPending ? "Pending" : "Locked"}
               tone={approvalRecorded || verified ? "blue" : proposalPending ? "amber" : "gray"}
-              body={approvalRecorded || verified ? "The plan ID is bound to the reviewed release hash." : proposalPending ? "Review the exact patch and cited evidence before approval." : "Approval opens only after a valid proposal exists."}
-              meta={approvalRecorded || verified ? `Bound to ${shortHash(state.release.baselineHash)}` : "No approval recorded"}
+              body={approvalRecorded || verified ? "You approved the exact change shown on the left." : proposalPending ? "Check the before and after text, then approve only that change." : "Approval opens after a safe suggestion is ready."}
             />
             <LedgerStep
               number={4}
-              title={verified ? "Release proof issued" : state.permissions.canApply ? "Release proof ready" : "Release proof locked"}
+              title={verified ? "Final verification passed" : state.permissions.canApply ? "Final verification ready" : "Final verification locked"}
               status={verified ? "Verified" : state.permissions.canApply ? "Ready" : "Locked"}
               tone={verified ? "green" : state.permissions.canApply ? "blue" : "gray"}
-              body={verified ? `${passedChecks}/${checkCount} deterministic checks passed.` : state.permissions.canApply ? "Apply the approved patch and run every deterministic check." : `Checks (${passedChecks}/${checkCount}) not complete.`}
-              meta={verified && state.proof ? formatTimestamp(state.proof.verifiedAt) : "Proof hash not issued"}
+              body={verified ? `${state.plan?.changes.length ?? 0} caption fixed, ${state.plan?.staleArtifacts.length ?? 0} dependency proof records recomputed, and ${passedChecks} of ${checkCount} checks passed.` : state.permissions.canApply ? "Apply the approved change and run every check." : `Checks are not complete (${passedChecks} of ${checkCount}).`}
             />
           </ol>
 
-          <section className="release-summary" aria-labelledby="summary-title">
-            <h3 id="summary-title">Release summary</h3>
-            <dl>
-              <div><dt>Version</dt><dd>{state.release.version}</dd></div>
-              <div>
-                <dt>Current release hash</dt>
-                <dd>
-                  <code title={state.release.currentHash}>{shortHash(state.release.currentHash)}</code>
-                  <button type="button" onClick={handleCopyHash} aria-label="Copy current release hash"><Copy size={16} aria-hidden="true" /></button>
-                </dd>
-              </div>
-              <div><dt>Atomic changes</dt><dd>{state.plan?.changes.length ?? 0}</dd></div>
-              <div><dt>Cited anchors</dt><dd>{linkedEvidence.length || state.evidence.length}</dd></div>
-              <div><dt>Deterministic checks</dt><dd>{passedChecks} / {checkCount} passed</dd></div>
-              <div><dt>Proof hash</dt><dd>{state.proof ? shortHash(state.proof.hash) : "Not issued"}</dd></div>
-            </dl>
-            <span className="copy-status" role="status">{copied ? "Release hash copied" : ""}</span>
-          </section>
+          <details className="technical-details release-technical-details" data-testid="release-technical-details">
+            <summary>Technical details<span className="sr-only"> for this release</span></summary>
+            <section className="release-summary" aria-labelledby="summary-title">
+              <h3 id="summary-title">Release summary</h3>
+              <dl>
+                <div><dt>Version</dt><dd>{state.release.version}</dd></div>
+                <div>
+                  <dt>Current release hash</dt>
+                  <dd>
+                    <code title={state.release.currentHash}>{shortHash(state.release.currentHash)}</code>
+                    <button type="button" onClick={handleCopyHash} aria-label="Copy current release hash"><Copy size={16} aria-hidden="true" /></button>
+                  </dd>
+                </div>
+                <div><dt>Changes</dt><dd>{state.plan?.changes.length ?? 0}</dd></div>
+                <div><dt>Evidence items</dt><dd>{linkedEvidence.length || state.evidence.length}</dd></div>
+                <div><dt>Checks</dt><dd>{passedChecks} / {checkCount} passed</dd></div>
+                <div><dt>Proof hash</dt><dd>{state.proof ? shortHash(state.proof.hash) : "Not issued"}</dd></div>
+              </dl>
+              <span className="copy-status" role="status">{copied ? "Release hash copied" : ""}</span>
+            </section>
+          </details>
 
           <div className="ledger-note">
             <Info size={20} aria-hidden="true" />
-            <p>
-              {verified
-                ? "This release can be traced from correction to evidence, approval, checks, and proof hash."
-                : state.permissions.canApply
-                  ? `LessonProof will apply the bounded patch and run ${checkCount} deterministic checks before issuing a proof hash.`
-                  : "LessonProof keeps the release unchanged until a human approves the exact bounded patch."}
-            </p>
+            <div>
+              <strong>What LessonProof proves</strong>
+              <p>It does not prove that the formula is true. It verifies that this approved change is present in this release version and that the declared dependency proof records are current.</p>
+            </div>
           </div>
 
           <footer className="ledger-footer">

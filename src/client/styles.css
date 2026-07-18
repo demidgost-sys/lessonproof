@@ -45,13 +45,15 @@ textarea {
 }
 
 button,
-a {
+a,
+summary {
   -webkit-tap-highlight-color: transparent;
 }
 
 button:focus-visible,
 a:focus-visible,
-textarea:focus-visible {
+textarea:focus-visible,
+summary:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
@@ -205,7 +207,7 @@ blockquote {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #98a1aa;
+  color: #596570;
   font-size: 12px;
   white-space: nowrap;
 }
@@ -426,14 +428,6 @@ blockquote {
   color: var(--red);
 }
 
-.conflict-claim small {
-  display: block;
-  color: #73808c;
-  font-family: var(--mono);
-  font-size: 9px;
-  overflow-wrap: anywhere;
-}
-
 .evidence-rows {
   padding: 12px 22px 14px;
 }
@@ -456,7 +450,7 @@ blockquote {
   padding: 14px 8px;
   color: #5f6a75;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .evidence-row > div {
@@ -473,15 +467,7 @@ blockquote {
 
 .evidence-row__meta strong {
   color: #303a44;
-  font-size: 11px;
-}
-
-.evidence-row__meta code {
-  color: #697581;
-  font-family: var(--mono);
-  font-size: 9px;
-  overflow-wrap: anywhere;
-  text-align: right;
+  font-size: 12px;
 }
 
 .evidence-row blockquote {
@@ -542,8 +528,63 @@ textarea:focus {
   justify-content: space-between;
   gap: 12px;
   margin-top: 8px;
-  color: #74808b;
-  font-size: 10px;
+  color: #56616c;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.technical-details {
+  border-top: 1px solid var(--line);
+  background: #fbfcfd;
+}
+
+.technical-details > summary {
+  min-height: 44px;
+  padding: 14px 22px;
+  cursor: pointer;
+  color: #35404a;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.technical-details > summary:hover {
+  color: var(--blue);
+  background: #f4f8fc;
+}
+
+.technical-details[open] > summary {
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.technical-details__list {
+  margin: 0;
+  padding: 10px 22px 14px;
+}
+
+.technical-details__list > div {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 12px;
+  padding: 6px 0;
+}
+
+.technical-details__list dt,
+.technical-details__list dd {
+  margin: 0;
+  color: #56616c;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.technical-details__list dd {
+  color: #303a44;
+  overflow-wrap: anywhere;
+}
+
+.technical-details__list code {
+  font-family: var(--mono);
 }
 
 .proposal-summary {
@@ -558,15 +599,8 @@ textarea:focus {
 
 .proposal-summary strong {
   color: #204e88;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.45;
-}
-
-.proposal-summary span {
-  flex: none;
-  color: #496986;
-  font-family: var(--mono);
-  font-size: 9px;
 }
 
 .patch-list {
@@ -592,14 +626,7 @@ textarea:focus {
 }
 
 .patch__meta strong {
-  font-size: 11px;
-}
-
-.patch__meta code {
-  color: #63707c;
-  font-family: var(--mono);
-  font-size: 9px;
-  overflow-wrap: anywhere;
+  font-size: 12px;
 }
 
 .patch__diff {
@@ -624,7 +651,7 @@ textarea:focus {
   margin-bottom: 9px;
   color: #4c5965;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
@@ -657,6 +684,15 @@ textarea:focus {
   border-top: 0;
 }
 
+.proposal-technical-details {
+  margin-top: 14px;
+}
+
+.proposal-technical-details .proposal-details {
+  margin: 0;
+  border: 0;
+}
+
 .proposal-details dl {
   margin: 0;
   padding: 13px 14px;
@@ -676,19 +712,20 @@ textarea:focus {
 .hash-card dt,
 .hash-card dd {
   margin: 0;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.4;
 }
 
 .proposal-details dt,
 .release-summary dt,
 .hash-card dt {
-  color: #697581;
+  color: #56616c;
 }
 
 .proposal-details dd {
   color: #35404a;
   font-family: var(--mono);
+  overflow-wrap: anywhere;
 }
 
 .anchor-list {
@@ -701,10 +738,14 @@ textarea:focus {
   margin-bottom: 7px;
   color: #46515c;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.anchor-list > .anchor-list__label {
+  margin-top: 16px;
 }
 
 .anchor-list p {
@@ -724,13 +765,13 @@ textarea:focus {
   border-radius: 50%;
   color: #5f6973;
   font-family: var(--mono);
-  font-size: 8px;
+  font-size: 10px;
 }
 
 .anchor-list code {
   color: #53606c;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10.5px;
   overflow-wrap: anywhere;
 }
 
@@ -755,7 +796,18 @@ textarea:focus {
 .blocked-plan span {
   margin-top: 4px;
   color: #8b4b45;
-  font-size: 10px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.verified-outcome {
+  margin: 0;
+  border-bottom: 1px solid #b8d8c0;
+  padding: 14px 22px;
+  color: #245f36;
+  background: var(--green-soft);
+  font-size: 14px;
+  font-weight: 720;
   line-height: 1.5;
 }
 
@@ -785,7 +837,7 @@ textarea:focus {
 .proof-seal small {
   margin-bottom: 3px;
   color: #4b7659;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .proof-seal strong {
@@ -812,7 +864,7 @@ textarea:focus {
 }
 
 .status-icon {
-  min-width: 38px;
+  min-width: 42px;
   min-height: 22px;
   display: inline-grid;
   place-items: center;
@@ -822,7 +874,7 @@ textarea:focus {
   color: #5c6670;
   background: #f5f7f8;
   font-family: var(--mono);
-  font-size: 8px;
+  font-size: 9.5px;
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -846,14 +898,14 @@ textarea:focus {
 
 .check-item strong {
   color: #35404a;
-  font-size: 10px;
+  font-size: 11.5px;
   line-height: 1.4;
 }
 
 .check-item small {
   margin-top: 2px;
-  color: #717c87;
-  font-size: 9px;
+  color: #56616c;
+  font-size: 10.5px;
   line-height: 1.45;
 }
 
@@ -868,7 +920,7 @@ textarea:focus {
 .hash-card > span {
   color: #46515c;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -879,7 +931,7 @@ textarea:focus {
   margin: 7px 0 12px;
   color: #2c353e;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
@@ -896,6 +948,18 @@ textarea:focus {
   color: #35404a;
 }
 
+.proof-technical-details {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+}
+
+.proof-technical-details .hash-card {
+  border: 0;
+  border-radius: 0;
+}
+
 .decision-bar {
   position: sticky;
   bottom: 12px;
@@ -910,10 +974,14 @@ textarea:focus {
   background: var(--paper);
 }
 
+.decision-bar--complete {
+  position: static;
+}
+
 .decision-bar > p {
   margin: 0;
   color: #3f4a55;
-  font-size: 10px;
+  font-size: 11.5px;
   line-height: 1.5;
   text-align: center;
 }
@@ -958,9 +1026,9 @@ textarea:focus {
 .decision-bar__primary small {
   display: block;
   margin-top: 6px;
-  color: #65717c;
+  color: #56616c;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10.5px;
   text-align: center;
 }
 
@@ -1098,7 +1166,7 @@ textarea:focus {
   margin: 5px 0 0;
   color: #303a44;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 750;
   letter-spacing: 0.1em;
   line-height: 1.4;
@@ -1108,21 +1176,12 @@ textarea:focus {
 .ledger-step p {
   margin: 10px 0 4px;
   color: #37424c;
-  font-size: 11.5px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
-.ledger-step small {
-  display: block;
-  color: #68747f;
-  font-family: var(--mono);
-  font-size: 9px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
-}
-
 .release-summary {
-  border-top: 1px solid var(--line);
+  border-top: 0;
   padding: 16px 24px 14px;
 }
 
@@ -1155,14 +1214,14 @@ textarea:focus {
   min-width: 0;
   overflow: hidden;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10.5px;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .release-summary dd button {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   display: grid;
   place-items: center;
   flex: none;
@@ -1182,7 +1241,7 @@ textarea:focus {
   display: block;
   margin-top: 4px;
   color: var(--green);
-  font-size: 9px;
+  font-size: 10.5px;
   text-align: right;
 }
 
@@ -1200,8 +1259,15 @@ textarea:focus {
 
 .ledger-note p {
   margin: 0;
-  font-size: 10px;
+  font-size: 11.5px;
   line-height: 1.5;
+}
+
+.ledger-note strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #214f80;
+  font-size: 11px;
 }
 
 .ledger-footer {
@@ -1213,7 +1279,7 @@ textarea:focus {
 .ledger-footer span {
   color: #4f5b66;
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1221,8 +1287,8 @@ textarea:focus {
 
 .ledger-footer p {
   margin: 4px 0 0;
-  color: #727d87;
-  font-size: 9px;
+  color: #56616c;
+  font-size: 10.5px;
   line-height: 1.4;
 }
 
@@ -1384,10 +1450,10 @@ textarea:focus {
   }
 
   .mode-badge {
-    max-width: 152px;
+    max-width: 180px;
     overflow: hidden;
     padding: 5px 8px;
-    font-size: 9px;
+    font-size: 10.5px;
     text-overflow: ellipsis;
   }
 
@@ -1397,7 +1463,7 @@ textarea:focus {
   }
 
   .progress-bar li {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .progress-bar li:not(:last-child)::after {

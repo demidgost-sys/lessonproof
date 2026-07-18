@@ -335,6 +335,6 @@ export const CHECK_LABELS: Record<RequiredCheckId, string> = {
   editable_path_only: "Patch stays inside editable paths",
   source_immutable: "Checked source remains immutable",
   correction_applied: "Correction is applied exactly once",
-  derived_artifacts_current: "Dependent proof manifests are current",
+  derived_artifacts_current: "Dependency proof records are current",
   release_hash_changed: "Release proof hash changed",
 };

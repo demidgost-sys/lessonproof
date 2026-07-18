@@ -49,7 +49,7 @@ function snapshot(overrides: Partial<SessionSnapshot> = {}): SessionSnapshot {
     journal: [],
     blockedReason: {
       code: "PENDING_CORRECTION",
-      message: "An expert correction is unresolved. Analyze it before release.",
+      message: "An expert correction is unresolved. Review it before release.",
     },
     ...overrides,
   };
@@ -122,7 +122,7 @@ describe("SessionSnapshot adapter", () => {
     }));
 
     expect(state.phase).toBe("repair");
-    expect(state.release.gateLabel).toBe("REPAIR PROPOSED");
+    expect(state.release.gateLabel).toBe("SUGGESTION READY");
     expect(state.plan?.changes[0]).toMatchObject({
       before: "sin⁻¹(x) = 1/sin(x)",
       after: "sin⁻¹(x) = arcsin(x)",

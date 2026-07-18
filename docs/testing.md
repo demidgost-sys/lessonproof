@@ -1,8 +1,8 @@
 # Judge testing guide
 
 LessonProof is a web application for modern desktop and mobile browsers. The
-bundled deterministic fixture provides a complete no-login, no-secret judge
-path; live mode uses the same interface and validation pipeline with a
+bundled `Built-in demo · no AI call` path provides a complete no-login,
+no-secret judge route; live mode uses the same interface and validation pipeline with a
 server-side GPT-5.6 planner.
 
 ## Fast local path
@@ -18,16 +18,20 @@ Open <http://localhost:5173>.
 
 ## Golden journey
 
-1. Confirm the header says `Deterministic fixture` or identifies the configured
-   GPT-5.6 live model.
+1. Confirm the header says `Built-in demo · no AI call` or identifies the
+   configured GPT-5.6 live model.
 2. Confirm the footer labels the content as synthetic.
-3. Leave the bundled correction unchanged and select **Analyze correction**.
-4. Review the checked evidence, exact caption diff, invalidated downstream
-   artifacts, and selected checks.
-5. Select **Approve bounded repair**. Confirm the release has not changed yet.
-6. Select **Apply approved patch & verify**.
-7. Confirm **Release verified**, six passing checks, version increment, and a
-   new proof hash.
+3. Leave the bundled correction unchanged and select **Show a safe suggestion**
+   (or **Ask GPT-5.6 for a suggestion** in live mode).
+4. Review the checked evidence and exact before/after caption change. Open
+   **Technical details** only when you need paths, dependency proof records,
+   or IDs.
+5. Select **Approve this exact change**. Confirm the synthetic release has not
+   changed yet.
+6. Select **Apply change & run 6 checks**.
+7. Confirm the state says **Change verified** and the plain result reads
+   `1 caption fixed. 2 dependency proofs recomputed. 6 of 6 checks passed.`
+   Open **Technical details** to inspect the version and proof hashes.
 8. Select **Undo verified change** and confirm the baseline is restored through
    the proof-hash guard.
 9. Use **Reset demo** to begin again at any time.

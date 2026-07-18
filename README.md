@@ -4,8 +4,8 @@
 
 ![LessonProof submission cover](submission/assets/cover.png)
 
-One wrong sentence in a lesson is easy to correct. The real release risk is an
-old caption or derived package still carrying the mistake.
+One wrong sentence in a lesson is easy to correct. The real release risk is
+shipping while dependency proof records still describe an older version.
 
 LessonProof is a release pipeline for educational content. GPT-5.6 proposes a
 bounded repair from cited evidence. A human reviews the exact diff.
@@ -22,9 +22,9 @@ material.
 ## Why it matters
 
 Educational content rarely exists as one sentence in one file. A correction
-may need to propagate across the explanation, caption, claim, and release
-package. The hard part is not editing one span; it is proving that every
-dependent artifact now agrees.
+may affect the explanation, caption, claim, and release package. This prototype
+updates its synthetic caption record and recomputes two declared dependency
+proof records; it does not rewrite real media or linked production files.
 
 Many education AI products focus on generating or grading content. LessonProof
 starts when a human expert says the AI is wrong and converts that correction
@@ -44,9 +44,13 @@ The bundled demonstration begins with a deliberately false caption:
    plans.
 4. The expert reviews and approves the exact patch. Approval does not mutate
    the release.
-5. LessonProof applies the approved patch and runs six deterministic checks.
+5. LessonProof applies the approved patch, recomputes two dependency proof
+   records, and runs six deterministic checks.
 6. A fully passing release receives a new SHA-256 proof hash. Undo is permitted
    only while that exact verified state is still current.
+
+The verified result states the outcome directly:
+`1 caption fixed. 2 dependency proofs recomputed. 6 of 6 checks passed.`
 
 GPT-5.6 proposes. A human approves. Deterministic code decides whether the
 release can ship.
@@ -60,8 +64,8 @@ npm ci
 npm run dev
 ```
 
-Open <http://localhost:5173>. The default deterministic fixture requires no
-account, network connection, or secret and exercises the same validated plan
+Open <http://localhost:5173>. The default built-in demo requires no account,
+network connection, or secret and exercises the same validated plan
 schema and approval/apply/undo state machine as live mode.
 
 Run the complete verification suite:
@@ -141,23 +145,25 @@ proof, and undo decision around it.
 - Strict model-output schema plus domain validation of evidence, paths,
   patches, affected artifacts, and check closure.
 - Optimistic release hashes prevent stale planning, approval, apply, and undo.
-- A labeled deterministic fixture gives judges a complete no-secret test path
-  without impersonating a provider response.
+- The visibly labeled `Built-in demo · no AI call` path gives judges a complete
+  no-secret test route without impersonating a provider response.
 
-This prototype modifies only its disposable in-memory synthetic release. It is
-not a learning-management system, autonomous publisher, or certification of
+This prototype modifies only its disposable in-memory synthetic release and
+does not edit real media or linked production files. It is not a
+learning-management system, autonomous publisher, or certification of
 educational truth.
 
 ## Submission gallery
 
 | Initial release gate | Bounded repair proposal | Verified release |
 |---|---|---|
-| [![Blocked fixture state](submission/assets/screenshots/01-initial-blocked.png)](submission/assets/screenshots/01-initial-blocked.png) | [![Proposed repair state](submission/assets/screenshots/02-repair-proposed.png)](submission/assets/screenshots/02-repair-proposed.png) | [![Verified six-check state](submission/assets/screenshots/03-release-verified.png)](submission/assets/screenshots/03-release-verified.png) |
+| [![Blocked built-in demo state](submission/assets/screenshots/01-initial-blocked.png)](submission/assets/screenshots/01-initial-blocked.png) | [![Proposed repair state](submission/assets/screenshots/02-repair-proposed.png)](submission/assets/screenshots/02-repair-proposed.png) | [![Verified six-check state](submission/assets/screenshots/03-release-verified.png)](submission/assets/screenshots/03-release-verified.png) |
 
-The initial and verified screenshots are captures of the public live-mode
-deployment. The proposed-repair screenshot is a local production capture and
-is visibly labeled `Deterministic fixture`; it demonstrates the same validated
-proposal and approval contract without implying a provider call. See the
+These images document the preceding deployed interface and are temporarily
+stale relative to the latest local wording. They must be recaptured after the
+new interface is deployed and must not be used as the final submission gallery
+until then. The replacement proposal capture must visibly say
+`Built-in demo · no AI call`. See the
 [architecture visual](submission/assets/architecture.png) and
 [asset provenance notes](submission/assets/README-assets.md).
 

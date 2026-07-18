@@ -135,7 +135,7 @@ The base is white and cool gray with graphite text. Ultramarine identifies model
 
 ## Typography
 
-Interface copy uses the local system sans stack. Evidence, hashes, locators, technical headings, and diffs use the local monospace stack. No external font request is allowed. Headings are compact, uppercase, and tracked; body copy remains sentence case and readable at small sizes.
+Interface copy uses the local system sans stack. Evidence, hashes, locators, technical headings, and diffs use the local monospace stack. No external font request is allowed. Headings are compact, uppercase, and tracked; body copy remains sentence case. Supporting text stays at 10.5px or larger with high-contrast graphite color.
 
 ## Layout
 
@@ -153,18 +153,20 @@ Panels and buttons use restrained 4–7px radii. Full pills are limited to compa
 
 ## Components
 
-- `Evidence conflict summary` contrasts the release claim with the checked claim. After Apply, it changes to a truthful before/after repair summary.
-- `Cited evidence` shows only real anchors supplied by the workflow state.
-- `Bounded patch` shows the exact before/after diff, scope, invalidated artifacts, and cited anchors.
+- `Problem and trusted source` contrasts the release claim with the checked claim. After Apply, it becomes the plain `What changed` summary.
+- `Supporting evidence` shows only real excerpts supplied by the workflow state. Source locations are progressively disclosed under `Technical details`.
+- `Suggestion` shows the exact before/after change in plain language. Plan IDs, locators, dependency proof records, and source anchors stay under `Technical details`.
+- `Verification result` leads with `1 caption fixed. 2 dependency proofs recomputed. 6 of 6 checks passed.` Proof hashes remain available under `Technical details`.
 - `Proof Ledger` remains visible across states and never implies that a model approved or verified its own proposal.
-- `Decision bar` maps to Analyze, Approve, Apply & verify, or the disabled verified receipt. Reset, reject, and guarded undo remain secondary.
+- `Decision bar` maps to `Ask GPT-5.6 for a suggestion`, `Approve this exact change`, `Apply change & run 6 checks`, or the disabled `Change verified` receipt. Reset, reject, and guarded undo remain secondary.
 - Icons come from Phosphor Icons. Do not replace them with emoji, text glyphs, handcrafted SVG, or CSS drawings.
 
 ## Do's and Don'ts
 
 - Do preserve the sequence: correction, source-bound proposal, human approval, deterministic checks, proof hash.
-- Do keep live GPT-5.6 provenance and deterministic fixture provenance visibly distinct.
-- Do show current release, plan, and proof hashes only when the state supplies them.
+- Do keep live GPT-5.6 provenance and `Built-in demo · no AI call` provenance visibly distinct.
+- Do expose current release, plan, and proof hashes only when the state supplies them, inside the relevant `Technical details` disclosure.
+- Do state the proof boundary plainly: LessonProof verifies presence of an approved change and that the declared dependency proof records are current; it does not prove that the formula is true or rewrite real media.
 - Do keep semantic status colors consistent across the main review and ledger.
 - Do not add a marketing hero, decorative artwork, generic feature cards, or repeated primary calls to action.
 - Do not claim a timestamp, evidence line, hash, check result, or verified state that the runtime did not produce.

@@ -16,7 +16,7 @@ const CHECK_LABELS: Record<string, string> = {
   editable_path_only: "Patch stays in editable paths",
   source_immutable: "Checked source remains immutable",
   correction_applied: "Expert correction is present",
-  derived_artifacts_current: "Derived artifacts are current",
+  derived_artifacts_current: "Dependency proof records are current",
   release_hash_changed: "Release proof hash changed",
   undo_integrity: "Undo target matches current proof",
 };
@@ -145,7 +145,7 @@ export function adaptSnapshot(snapshot: SessionSnapshot): WorkflowState {
       gateLabel: proofReady
         ? "VERIFIED"
         : snapshot.gate === "REPAIR_PROPOSED"
-          ? "REPAIR PROPOSED"
+          ? "SUGGESTION READY"
           : snapshot.gate,
       baselineHash: snapshot.baselineHash,
       currentHash: snapshot.release.hash,

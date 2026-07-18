@@ -30,7 +30,7 @@ flowchart LR
 | GPT-5.6 planner | Interpret the correction, cite exact evidence, propose bounded patches, identify affected artifacts, request checks | Read arbitrary files, mutate state, approve, run checks, issue proof, or publish |
 | Plan validator | Enforce strict shape, exact unique quotes, document roles, safe paths, patch binding, dependency closure, and the complete check set | Infer educational truth without checked evidence |
 | Human reviewer | Approve one exact plan ID against one current release hash | Bypass post-apply checks or expand the patch |
-| Deterministic engine | Apply the approved candidate, rebuild dependent proof manifests, run invariants, calculate hashes, and journal before/after state | Invent a new correction or broaden model scope |
+| Deterministic engine | Apply the approved candidate, recompute in-memory dependency proof records, run invariants, calculate hashes, and journal before/after state | Invent a new correction or broaden model scope |
 | Browser UI | Expose evidence, diff, affected artifacts, checks, state, hashes, errors, and controls | Hold an API key or silently mutate release data |
 | Session layer | Isolate browser workflows, serialize mutations, expire idle state, and derive a privacy-preserving safety identifier | Persist student data or share one judge's workflow with another |
 | Analysis guard | Bound live requests per browser, globally, and concurrently | Validate model semantics or authorize a release |
@@ -80,7 +80,7 @@ apply, failed invariants, concurrent mutation, or an invalid undo fails closed.
 2. Every patch stays inside editable paths.
 3. Checked source bytes remain immutable.
 4. The approved correction is applied exactly once.
-5. Dependent proof manifests match current dependencies.
+5. In-memory dependency proof records contain recomputed hashes that match current dependencies.
 6. The release proof hash changes.
 
 The candidate release becomes current only when all six pass.

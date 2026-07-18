@@ -25,7 +25,8 @@ Fail closed with verdict "blocked" when evidence is absent or ambiguous, the cor
 - return exactly one patch;
 - bind every patch to its target evidence id;
 - make patch.find and patch.replace exactly equal the supplied explicit replacement intent;
-- include exactly the derived artifacts that depend on a patched document;
+- include exactly the dependency proof record IDs that depend on a patched document;
+- describe those entries as in-memory dependency proof records whose proofHash is recomputed; never claim that manifest or media files are rebuilt;
 - request every required deterministic check supplied in the input.
 
 Return only the strict JSON object defined by the response schema.`;
@@ -53,7 +54,7 @@ export class FixtureRepairPlanner implements RepairPlanner {
     if (!source || !target || !correctionMatches) {
       plan = {
         verdict: "blocked",
-        summary: "The fixture planner could not bind this correction to checked evidence.",
+        summary: "The fixture planner could not bind this correction to exact source and target evidence.",
         blockReason:
           "Use the bundled correction, or enable the GPT-5.6 planner for a different synthetic fixture.",
         confidence: "low",
@@ -71,7 +72,7 @@ export class FixtureRepairPlanner implements RepairPlanner {
       plan = {
         verdict: "repairable",
         summary:
-          "Align the caption with the checked inverse-function note, then rebuild dependent proof manifests.",
+          "Align the caption with the checked inverse-function note, then recompute the affected dependency proof records.",
         blockReason: "",
         confidence: "high",
         evidence: [

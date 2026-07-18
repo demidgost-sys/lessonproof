@@ -106,7 +106,7 @@ export class LessonProofEngine {
     this.checks = [];
     this.blockedReason = {
       code: "PENDING_CORRECTION",
-      message: "An expert correction is unresolved. Analyze it before release.",
+      message: "An expert correction is unresolved. Review it before release.",
     };
     this.journal = [];
     return this.snapshot();
@@ -192,7 +192,7 @@ export class LessonProofEngine {
         this.blockedReason = {
           code: "MODEL_BLOCKED",
           message:
-            "The planning request stopped without changing the release. Retry the bounded analysis.",
+            "The suggestion request stopped without changing the release. Request a suggestion again.",
         };
         this.gate = "BLOCKED";
       }
@@ -206,7 +206,7 @@ export class LessonProofEngine {
     ) {
       throw new DomainError(
         "STALE_ANALYSIS",
-        "The release or correction changed while GPT-5.6 was planning. Analyze the current state again.",
+        "The release or correction changed while GPT-5.6 was preparing a suggestion. Request a suggestion for the current state again.",
         409,
       );
     }
@@ -451,7 +451,7 @@ export class LessonProofEngine {
     this.blockedReason = {
       code: "MODEL_BLOCKED",
       message:
-        "The approved repair was undone. The original expert correction is unresolved again.",
+        "The approved change was undone. The original correction needs review again.",
     };
     this.checks = [
       {
@@ -541,8 +541,8 @@ export class LessonProofEngine {
       derived_artifacts_current: {
         pass: allArtifactsCurrent,
         detail: allArtifactsCurrent
-          ? `${after.derivedArtifacts.length} derived proof manifest(s) match current dependencies.`
-          : "At least one derived proof manifest is stale.",
+          ? `${after.derivedArtifacts.length} dependency proof ${after.derivedArtifacts.length === 1 ? "record has" : "records have"} recomputed hashes that match current dependencies.`
+          : "At least one dependency proof record has a stale hash.",
       },
       release_hash_changed: {
         pass: beforeHash !== afterHash,

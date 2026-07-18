@@ -64,7 +64,7 @@ export interface LessonRelease {
   lesson: string;
   version: string;
   status: ReleaseStatus;
-  gateLabel: "READY" | "BLOCKED" | "REPAIR PROPOSED" | "APPROVED" | "VERIFIED";
+  gateLabel: "READY" | "BLOCKED" | "SUGGESTION READY" | "APPROVED" | "VERIFIED";
   baselineHash: string;
   currentHash: string;
   synthetic: boolean;

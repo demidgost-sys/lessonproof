@@ -1,7 +1,7 @@
 {
   "fixtureVersion": 1,
   "sessionId": "demo-inverse-sine",
-  "defaultCorrection": "At 03:24, replace ‘sin⁻¹(x) = 1/sin(x)’ with ‘sin⁻¹(x) = arcsin(x)’. Do not publish until the caption, evidence, derived-artifact, and release-hash checks pass.",
+  "defaultCorrection": "At 03:24, replace ‘sin⁻¹(x) = 1/sin(x)’ with ‘sin⁻¹(x) = arcsin(x)’. Do not publish until the caption, evidence, dependency proof record, and release hash checks all pass.",
   "release": {
     "id": "inverse-sine-mini-lesson",
     "title": "Inverse notation without the reciprocal trap",

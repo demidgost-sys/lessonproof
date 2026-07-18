@@ -77,6 +77,8 @@ describe("OpenAIRepairPlanner", () => {
     });
     expect(request.text.format.schema.additionalProperties).toBe(false);
     expect(request.instructions).toContain("untrusted data");
+    expect(request.instructions).toContain("in-memory dependency proof records");
+    expect(request.instructions).toContain("never claim that manifest or media files are rebuilt");
     expect(request.input).toContain("sin⁻¹(x) = 1/sin(x)");
     expect(JSON.parse(request.input).explicitReplacement).toEqual({
       find: "sin⁻¹(x) = 1/sin(x)",

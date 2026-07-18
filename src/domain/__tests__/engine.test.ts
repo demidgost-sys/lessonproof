@@ -29,12 +29,17 @@ async function proposed(engine: LessonProofEngine) {
 }
 
 describe("LessonProofEngine", () => {
-  it("hydrates a deterministic synthetic release and proof manifests", () => {
+  it("hydrates a deterministic synthetic release and dependency proof records", () => {
     const first = createEngine().snapshot();
     const second = createEngine().snapshot();
 
     expect(first.gate).toBe("BLOCKED");
     expect(first.blockedReason?.code).toBe("PENDING_CORRECTION");
+    expect(first.blockedReason?.message).toBe(
+      "An expert correction is unresolved. Review it before release.",
+    );
+    expect(first.defaultCorrection).toContain("dependency proof record");
+    expect(first.defaultCorrection).not.toContain("derived-artifact");
     expect(first.release.hash).toBe(second.release.hash);
     expect(first.release.hash).toBe(first.baselineHash);
     expect(first.release.documents.every((document) => !document.path.startsWith("/"))).toBe(true);
@@ -98,6 +103,11 @@ describe("LessonProofEngine", () => {
     ).toBe(sourceBefore);
     expect(applied.checks).toHaveLength(6);
     expect(applied.checks.every((check) => check.status === "pass")).toBe(true);
+    expect(applied.checks).toContainEqual(expect.objectContaining({
+      id: "derived_artifacts_current",
+      label: "Dependency proof records are current",
+      detail: "2 dependency proof records have recomputed hashes that match current dependencies.",
+    }));
     expect(applied.journal).toEqual([
       expect.objectContaining({
         planId: applied.plan?.id,
