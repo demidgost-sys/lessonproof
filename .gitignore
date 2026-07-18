@@ -1,0 +1,16 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.submission.local.json
+node_modules/
+.playwright-cli/
+.venv/
+dist/
+build/
+coverage/
+*.log
+work/
+outputs/raw/
+secrets/
+recordings/raw/

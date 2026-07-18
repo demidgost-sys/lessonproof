@@ -1,0 +1,46 @@
+{
+  "fixtureVersion": 1,
+  "sessionId": "demo-inverse-sine",
+  "defaultCorrection": "At 03:24, replace ‘sin⁻¹(x) = 1/sin(x)’ with ‘sin⁻¹(x) = arcsin(x)’. Do not publish until the caption, evidence, derived-artifact, and release-hash checks pass.",
+  "release": {
+    "id": "inverse-sine-mini-lesson",
+    "title": "Inverse notation without the reciprocal trap",
+    "version": 1,
+    "documents": [
+      {
+        "path": "sources/checked-teaching-note.md",
+        "role": "source",
+        "mediaType": "text/markdown",
+        "content": "# Checked teaching note\n\nUse inverse notation only for the inverse function: sin⁻¹(x) = arcsin(x), the inverse sine function. The reciprocal is csc(x) = 1/sin(x).\n"
+      },
+      {
+        "path": "captions/en.vtt",
+        "role": "editable",
+        "mediaType": "text/vtt",
+        "content": "WEBVTT\n\n00:03:19.000 --> 00:03:23.000\nNow read the calculator key carefully.\n\n00:03:23.000 --> 00:03:28.000\nRemember: sin⁻¹(x) = 1/sin(x).\n\n00:03:28.000 --> 00:03:32.000\nThen compare the result with the unit circle.\n"
+      },
+      {
+        "path": "lesson/metadata.json",
+        "role": "editable",
+        "mediaType": "application/json",
+        "content": "{\n  \"topic\": \"inverse trigonometric notation\",\n  \"audience\": \"secondary mathematics\",\n  \"language\": \"English\"\n}\n"
+      }
+    ],
+    "derivedArtifacts": [
+      {
+        "id": "caption-burnin-manifest",
+        "label": "Caption burn-in manifest",
+        "dependsOn": ["captions/en.vtt"]
+      },
+      {
+        "id": "release-package-manifest",
+        "label": "Release package manifest",
+        "dependsOn": [
+          "sources/checked-teaching-note.md",
+          "captions/en.vtt",
+          "lesson/metadata.json"
+        ]
+      }
+    ]
+  }
+}

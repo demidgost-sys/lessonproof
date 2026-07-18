@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">LessonProof trust architecture</title>
+  <desc id="desc">A precise diagram of isolated browser sessions flowing through a same-origin API to a read-only GPT-5.6 planner or deterministic fixture, strict validation, explicit reviewer approval, six deterministic checks, and a proof hash with guarded undo.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4f0e8"/>
+      <stop offset="1" stop-color="#eef1ed"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#1d211b" stroke-opacity="0.045"/>
+    </pattern>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0L10 5L0 10Z" fill="#72776e"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0 0L10 5L0 10Z" fill="#1d6b49"/>
+    </marker>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#24271f" flood-opacity="0.1"/>
+    </filter>
+    <style>
+      .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif; }
+      .mono { font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace; }
+      .ink { fill: #1d211b; }
+      .muted { fill: #656b62; }
+      .kicker { font-size: 14px; font-weight: 820; letter-spacing: 2px; }
+      .nodeTitle { font-size: 20px; font-weight: 790; letter-spacing: -0.25px; }
+      .nodeText { font-size: 14px; font-weight: 540; }
+      .micro { font-size: 12px; font-weight: 650; }
+      .edge { fill: none; stroke: #72776e; stroke-width: 2.5; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+
+  <g class="sans">
+    <g transform="translate(70 58)">
+      <rect width="48" height="48" rx="14" fill="#1d211b"/>
+      <text x="24" y="31" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="850">LP</text>
+      <text x="66" y="18" class="kicker" fill="#d15f35">LESSONPROOF</text>
+      <text x="66" y="47" class="ink" font-size="32" font-weight="830" letter-spacing="-1.2">Trust architecture</text>
+    </g>
+    <text x="1530" y="80" text-anchor="end" class="muted" font-size="15" font-weight="650">One service · isolated sessions · fail-closed release</text>
+
+    <text x="70" y="168" class="kicker" fill="#656b62">CONTROL FLOW</text>
+
+    <!-- Edges behind nodes -->
+    <path class="edge" d="M260 320H300"/>
+    <path class="edge" d="M490 320H530"/>
+    <path class="edge" d="M770 320H810"/>
+    <path class="edge" d="M1040 320H1080"/>
+    <path class="edge" d="M1280 320H1320"/>
+    <path d="M1425 536V602H1270" fill="none" stroke="#1d6b49" stroke-width="3" marker-end="url(#arrowGreen)"/>
+
+    <!-- 1 Browser session -->
+    <g transform="translate(70 218)" filter="url(#shadow)">
+      <rect width="190" height="204" rx="22" fill="#fbfaf6" stroke="#d15f35" stroke-opacity="0.36"/>
+      <rect width="190" height="46" rx="22" fill="#f5dfd4"/>
+      <path d="M0 46H190" stroke="#d15f35" stroke-opacity="0.22"/>
+      <circle cx="24" cy="23" r="6" fill="#d15f35"/>
+      <text x="40" y="29" class="kicker" fill="#8c432a">BROWSER</text>
+      <rect x="20" y="69" width="150" height="47" rx="12" fill="#ffffff" stroke="#d8d5ca"/>
+      <circle cx="42" cy="92" r="10" fill="#d15f35"/>
+      <text x="42" y="96" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="820">A</text>
+      <text x="61" y="97" class="nodeText ink">Reviewer A</text>
+      <rect x="20" y="127" width="150" height="47" rx="12" fill="#ffffff" stroke="#d8d5ca"/>
+      <circle cx="42" cy="150" r="10" fill="#305f8c"/>
+      <text x="42" y="154" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="820">B</text>
+      <text x="61" y="155" class="nodeText ink">Reviewer B</text>
+      <text x="20" y="194" class="micro muted">Independent state</text>
+    </g>
+
+    <!-- 2 API -->
+    <g transform="translate(300 240)" filter="url(#shadow)">
+      <rect width="190" height="160" rx="22" fill="#fbfaf6" stroke="#305f8c" stroke-opacity="0.35"/>
+      <circle cx="30" cy="32" r="15" fill="#305f8c"/>
+      <text x="30" y="37" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="850">2</text>
+      <text x="56" y="38" class="nodeTitle ink">Same-origin API</text>
+      <text x="22" y="75" class="nodeText muted">Native Node server</text>
+      <text x="22" y="101" class="nodeText muted">Strict JSON bodies</text>
+      <text x="22" y="127" class="nodeText muted">Mutation origin checks</text>
+      <text x="22" y="149" class="micro" fill="#305f8c">No key in browser</text>
+    </g>
+
+    <!-- 3 Session engine -->
+    <g transform="translate(530 218)" filter="url(#shadow)">
+      <rect width="240" height="204" rx="22" fill="#fbfaf6" stroke="#1d211b" stroke-opacity="0.18"/>
+      <circle cx="30" cy="32" r="15" fill="#1d211b"/>
+      <text x="30" y="37" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="850">3</text>
+      <text x="56" y="38" class="nodeTitle ink">Isolated session</text>
+      <rect x="22" y="62" width="196" height="45" rx="11" fill="#f4f0e8"/>
+      <text x="34" y="81" class="micro muted">HttpOnly cookie</text>
+      <text x="34" y="98" class="micro ink">SameSite=Strict · TTL</text>
+      <text x="22" y="132" class="nodeText muted">One engine per browser</text>
+      <text x="22" y="158" class="nodeText muted">Serialized mutations</text>
+      <text x="22" y="184" class="nodeText muted">Capacity + rate limits</text>
+    </g>
+
+    <!-- 4 Planner -->
+    <g transform="translate(810 202)" filter="url(#shadow)">
+      <rect width="230" height="236" rx="22" fill="#edf4fa" stroke="#305f8c" stroke-opacity="0.42"/>
+      <circle cx="30" cy="32" r="15" fill="#305f8c"/>
+      <text x="30" y="37" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="850">4</text>
+      <text x="56" y="38" class="nodeTitle" fill="#244f76">Read-only planner</text>
+      <rect x="22" y="61" width="186" height="61" rx="13" fill="#ffffff" stroke="#305f8c" stroke-opacity="0.22"/>
+      <text x="36" y="84" class="kicker" fill="#305f8c">OPTIONAL LIVE MODE</text>
+      <text x="36" y="108" class="nodeText ink">GPT-5.6 structured plan</text>
+      <rect x="22" y="132" width="186" height="61" rx="13" fill="#ffffff" stroke="#305f8c" stroke-opacity="0.22"/>
+      <text x="36" y="155" class="kicker" fill="#656b62">JUDGE-SAFE MODE</text>
+      <text x="36" y="179" class="nodeText ink">Deterministic fixture</text>
+      <text x="22" y="221" class="micro" fill="#244f76">Proposal only · no mutation</text>
+    </g>
+
+    <!-- 5 Approval -->
+    <g transform="translate(1080 228)" filter="url(#shadow)">
+      <rect width="200" height="184" rx="22" fill="#edf5ee" stroke="#1d6b49" stroke-opacity="0.38"/>
+      <circle cx="30" cy="32" r="15" fill="#1d6b49"/>
+      <text x="30" y="37" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="850">5</text>
+      <text x="56" y="38" class="nodeTitle" fill="#174e36">Reviewer</text>
+      <text x="22" y="76" class="nodeText ink">Inspect evidence</text>
+      <text x="22" y="102" class="nodeText ink">Review atomic diff</text>
+      <text x="22" y="128" class="nodeText ink">Approve exact plan</text>
+      <rect x="22" y="145" width="156" height="24" rx="12" fill="#dcecdf"/>
+      <text x="100" y="162" text-anchor="middle" class="micro" fill="#174e36">plan ID + release hash</text>
+    </g>
+
+    <!-- 6 checks -->
+    <g transform="translate(1320 182)" filter="url(#shadow)">
+      <rect width="210" height="354" rx="22" fill="#1d211b"/>
+      <circle cx="30" cy="32" r="15" fill="#dcecdf"/>
+      <text x="30" y="37" text-anchor="middle" fill="#1d6b49" font-size="13" font-weight="900">6</text>
+      <text x="56" y="38" class="nodeTitle" fill="#ffffff">Check gate</text>
+      <text x="22" y="72" class="kicker" fill="#b9d9c2">ALL SIX MUST PASS</text>
+      <g transform="translate(22 94)">
+        <g fill="#dcecdf"><circle cx="9" cy="9" r="9"/><circle cx="9" cy="45" r="9"/><circle cx="9" cy="81" r="9"/><circle cx="9" cy="117" r="9"/><circle cx="9" cy="153" r="9"/><circle cx="9" cy="189" r="9"/></g>
+        <g fill="#1d6b49" font-size="11" font-weight="900" text-anchor="middle"><text x="9" y="13">✓</text><text x="9" y="49">✓</text><text x="9" y="85">✓</text><text x="9" y="121">✓</text><text x="9" y="157">✓</text><text x="9" y="193">✓</text></g>
+        <g fill="#ffffff" font-size="13" font-weight="610">
+          <text x="27" y="14">Evidence unique</text>
+          <text x="27" y="50">Editable path only</text>
+          <text x="27" y="86">Source immutable</text>
+          <text x="27" y="122">Correction applied</text>
+          <text x="27" y="158">Artifacts current</text>
+          <text x="27" y="194">Hash changed</text>
+        </g>
+      </g>
+      <rect x="22" y="312" width="166" height="24" rx="12" fill="#2c332a" stroke="#dcecdf" stroke-opacity="0.25"/>
+      <text x="105" y="329" text-anchor="middle" class="micro" fill="#dcecdf">Deterministic authority</text>
+    </g>
+
+    <!-- Session isolation strip -->
+    <g transform="translate(70 604)" filter="url(#shadow)">
+      <rect width="950" height="198" rx="24" fill="#fbfaf6" stroke="#1d211b" stroke-opacity="0.14"/>
+      <text x="28" y="38" class="kicker" fill="#d15f35">PER-BROWSER ISOLATION</text>
+      <text x="28" y="67" class="nodeTitle ink">Each reviewer gets an independent disposable release state.</text>
+      <g transform="translate(28 92)">
+        <rect width="262" height="72" rx="16" fill="#fff5f0" stroke="#d15f35" stroke-opacity="0.3"/>
+        <circle cx="32" cy="36" r="16" fill="#d15f35"/>
+        <text x="32" y="41" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="850">A</text>
+        <text x="60" y="30" class="nodeText ink">Session A workflow</text>
+        <text x="60" y="51" class="micro muted">reset · plan · proof · undo</text>
+      </g>
+      <g transform="translate(306 92)">
+        <rect width="262" height="72" rx="16" fill="#edf4fa" stroke="#305f8c" stroke-opacity="0.3"/>
+        <circle cx="32" cy="36" r="16" fill="#305f8c"/>
+        <text x="32" y="41" text-anchor="middle" fill="#ffffff" font-size="13" font-weight="850">B</text>
+        <text x="60" y="30" class="nodeText ink">Session B workflow</text>
+        <text x="60" y="51" class="micro muted">independent from Session A</text>
+      </g>
+      <g transform="translate(584 92)">
+        <rect width="338" height="72" rx="16" fill="#edf5ee" stroke="#1d6b49" stroke-opacity="0.3"/>
+        <text x="20" y="28" class="nodeText" fill="#174e36">Bounded memory</text>
+        <text x="20" y="51" class="micro muted">TTL expiry · max capacity · no persistent student data</text>
+      </g>
+    </g>
+
+    <!-- Proof -->
+    <g transform="translate(1060 604)" filter="url(#shadow)">
+      <rect width="470" height="198" rx="24" fill="#dcecdf" stroke="#1d6b49" stroke-opacity="0.45"/>
+      <circle cx="52" cy="56" r="27" fill="#1d6b49"/>
+      <text x="52" y="64" text-anchor="middle" fill="#ffffff" font-size="24" font-weight="900">✓</text>
+      <text x="94" y="49" class="kicker" fill="#1d6b49">VERIFIED RELEASE</text>
+      <text x="94" y="76" class="nodeTitle" fill="#174e36">Proof hash + guarded undo</text>
+      <rect x="28" y="103" width="414" height="48" rx="13" fill="#1d211b"/>
+      <text x="48" y="133" class="mono" fill="#ffffff" font-size="16">sha256: 57aede91…bde41c</text>
+      <text x="28" y="177" class="micro" fill="#52695b">Undo only while current hash equals the journal after-hash.</text>
+    </g>
+
+    <text x="70" y="854" class="muted" font-size="14">Implemented capability diagram · optional live planner and labeled fixture share the same validation path.</text>
+    <text x="1530" y="854" text-anchor="end" class="muted" font-size="14" font-weight="700">LESSONPROOF · TRUST BOUNDARIES</text>
+  </g>
+</svg>

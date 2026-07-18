@@ -1,0 +1,13 @@
+.git
+.github
+.env
+.env.*
+!.env.example
+.submission.local.json
+node_modules
+dist
+coverage
+work
+outputs
+recordings
+*.log
