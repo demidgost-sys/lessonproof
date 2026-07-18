@@ -468,7 +468,7 @@ export default function App({ api: providedApi }: AppProps) {
       <header className="site-header">
         <a className="wordmark" href="#main" aria-label="LessonProof Proof Ledger">
           <span className="brand-mark" aria-hidden="true">LP</span>
-          <span>Proof Ledger</span>
+          <span>LessonProof</span>
         </a>
         <div className="header-badges">
           <span className={`mode-badge mode-badge--${state.mode}`} data-testid="ai-mode">

@@ -1,13 +1,18 @@
 # LessonProof
 
-**From expert correction to verified educational release.**
+**AI proposes the fix. It cannot certify itself.**
 
 ![LessonProof submission cover](submission/assets/cover.png)
 
-LessonProof is the release gate for AI-assisted education: a teacher's
-correction becomes a source-bound GPT-5.6 repair plan, but only a
-human-approved patch that passes six deterministic invariants receives a new
-proof hash.
+One wrong sentence in a lesson is easy to correct. The real release risk is an
+old caption or derived package still carrying the mistake.
+
+LessonProof is a release pipeline for educational content. GPT-5.6 proposes a
+bounded repair from cited evidence. A human reviews the exact diff.
+Deterministic checks—not the model—decide whether the updated release can ship.
+
+**[Try the live judge build](https://lessonproof.onrender.com)** — no account,
+API key, or setup required.
 
 This standalone OpenAI Build Week 2026 Education entry was created during the
 competition period. It uses a synthetic lesson so the complete experience is
@@ -103,18 +108,20 @@ analysis; an external OpenAI project budget remains the final spending guard.
 
 ## How Codex and GPT-5.6 were used
 
-During Build Week, the creator directed Codex to audit candidate workflows and
-the competition rules, isolate a privacy-safe Education product, implement the
-domain engine, API, interface, and tests in parallel, and red-team the privacy,
-provenance, deployment, and claim boundaries.
-
-The creator retained the key product decisions:
+I retained the key product decisions:
 
 - one synthetic golden path that a judge can understand in minutes;
 - GPT-5.6 as a read-only planner rather than a release authority;
 - an exact reviewable diff and explicit human approval before mutation;
 - deterministic code, not model confidence, as the release gate;
 - a clean-room boundary around prior experience and private data.
+
+I used Codex to turn those boundaries into a strict state machine, split the
+engine, API, interface, and test suite into parallel work, probe stale-hash and
+cross-session failures, run the complete verification loop, and redesign the
+first interface around the current Proof Ledger. Codex accelerated the
+implementation and review; I remained responsible for the product boundary and
+every release claim.
 
 At runtime, GPT-5.6 performs the part that is not safely reducible to string
 matching: it interprets the expert correction against inspected evidence and
@@ -146,8 +153,10 @@ educational truth.
 |---|---|---|
 | [![Blocked fixture state](submission/assets/screenshots/01-initial-blocked.png)](submission/assets/screenshots/01-initial-blocked.png) | [![Proposed repair state](submission/assets/screenshots/02-repair-proposed.png)](submission/assets/screenshots/02-repair-proposed.png) | [![Verified six-check state](submission/assets/screenshots/03-release-verified.png)](submission/assets/screenshots/03-release-verified.png) |
 
-The screenshots are real captures of the local production build in the
-labeled deterministic fixture mode. See the
+The initial and verified screenshots are captures of the public live-mode
+deployment. The proposed-repair screenshot is a local production capture and
+is visibly labeled `Deterministic fixture`; it demonstrates the same validated
+proposal and approval contract without implying a provider call. See the
 [architecture visual](submission/assets/architecture.png) and
 [asset provenance notes](submission/assets/README-assets.md).
 
