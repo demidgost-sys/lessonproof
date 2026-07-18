@@ -1,30 +1,32 @@
 # LessonProof submission assets
 
-These are original, deterministic assets for the LessonProof competition
+These are original, truthfully labeled assets for the LessonProof competition
 submission. They use no third-party logos or brand marks.
 
 ## Asset manifest
 
 | File | Canvas | Intended use |
 |---|---:|---|
-| `cover.png` | 1600×900 | Primary project cover, captured from the real fixture-mode interface |
+| `cover.png` | 1600×900 | Primary project cover, captured from the public live-mode interface in its clean initial state |
 | `architecture.svg` / `architecture.png` | 1600×900 | Architecture visual for the repository, submission description, and final demo-video explanation |
 | `youtube-thumbnail.svg` / `youtube-thumbnail.png` | 1280×720 | YouTube demo thumbnail |
-| `screenshots/01-initial-blocked.png` | 1600×900 | Real fixture-mode initial state with the unresolved correction and blocked gate |
+| `screenshots/01-initial-blocked.png` | 1600×900 | Public live-mode initial state with the unresolved correction and blocked gate |
 | `screenshots/02-repair-proposed.png` | 1600×900 | Real fixture-mode proposal state with bounded evidence and review gate |
-| `screenshots/03-release-verified.png` | 1600×900 | Real fixture-mode verified state with six checks and proof hash |
-| `screenshots/04-mobile-initial.png` | 390×844 | Responsive and independent-session QA evidence |
+| `screenshots/03-release-verified.png` | 1600×900 | Public live-mode verified state with six checks and proof hash |
+| `screenshots/04-mobile-initial.png` | 390×844 | Public live-mode responsive QA evidence |
 
 ## Content contract
 
-- The palette is derived from the implemented LessonProof UI: warm paper,
-  dark ink, clay for the active stage, blue for information, and green only
-  for completed or verified states.
+- The palette is derived from the implemented Proof Ledger UI: cool gray
+  canvas, white evidence surfaces, graphite text, ultramarine for the current
+  action, amber for pending human review, and green for checked or verified
+  states.
 - The architecture asset reflects implemented boundaries: per-browser isolated
   sessions, same-origin mutations, a read-only planner, explicit reviewer
   approval, all six deterministic checks, a proof hash, and guarded undo.
-- GPT-5.6 is shown as the optional live planner capability. The assets do not
-  state or imply that a live API smoke test has passed.
+- GPT-5.6 is shown as the live read-only planner capability. Live-mode captures
+  were taken only after the deployed flow completed proposal, human approval,
+  six deterministic checks, proof issuance, and guarded undo.
 - The deterministic fixture follows the same validation and approval path and
   is identified as the judge-safe mode.
 - The formula example is synthetic: `sin⁻¹(x) = 1/sin(x)` is corrected to
@@ -32,9 +34,10 @@ submission. They use no third-party logos or brand marks.
 - The architecture and thumbnail pairs are explanatory compositions, not
   screenshots. They do not fabricate
   product screens, metrics, endorsements, prizes, or verification results.
-- `cover.png` and files under `screenshots/` are real captures of the local production build.
-  They show `Deterministic fixture` in the header or inline proposal provenance;
-  they prove the interface and complete state machine, not a provider call.
+- `cover.png` and files under `screenshots/` are real captures of either the
+  public deployment or the local production build. Each capture retains its
+  visible `gpt-5.6-sol live` or `Deterministic fixture` provenance; the
+  fixture-proposed capture does not imply a provider call.
 
 ## Export to PNG on macOS
 
