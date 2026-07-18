@@ -41,7 +41,7 @@ public-package preflight.
 
 | Judge question | Evidence to show |
 |---|---|
-| Is GPT-5.6 necessary rather than ornamental? | The live structured proposal interprets an unstructured correction into exact evidence, patch, invalidation, and check selections |
+| What work does GPT-5.6 perform? | The live structured proposal turns reviewer intent and bounded evidence into exact evidence, patch, invalidation, and check selections |
 | What prevents autonomous or stale mutation? | Separate approval/apply controls, allowlisted paths, current release hashes, six checks, and guarded undo |
 | Is this a coherent product rather than a technical demo? | One continuous correction → proposal → approval → verification → proof journey in the evidence cockpit |
 | Who benefits? | Teachers and educational-content teams maintaining a lesson plus derived captions, claims, and release packages |

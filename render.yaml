@@ -25,6 +25,6 @@ services:
       - key: LESSONPROOF_ANALYSIS_SESSION_LIMIT
         value: 2
       - key: LESSONPROOF_ANALYSIS_GLOBAL_LIMIT
-        value: 30
+        value: 100
       - key: LESSONPROOF_ANALYSIS_MAX_CONCURRENT
         value: 1

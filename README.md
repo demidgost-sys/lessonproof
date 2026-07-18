@@ -1,6 +1,6 @@
 # LessonProof
 
-**AI proposes the fix. It cannot certify itself.**
+**GPT-5.6 proposes. A human approves. Deterministic checks decide.**
 
 ![LessonProof submission cover](submission/assets/cover.png)
 
@@ -103,7 +103,7 @@ returns an invalid plan, the release remains unchanged.
 
 The included Render blueprint deploys this live path with the API key held in
 the host secret manager. It limits anonymous traffic to two analyses per
-browser session, 30 analyses per 30-day process window, and one concurrent
+browser session, 100 analyses per 30-day process window, and one concurrent
 analysis; an external OpenAI project budget remains the final spending guard.
 
 ## How Codex and GPT-5.6 were used
@@ -123,10 +123,11 @@ first interface around the current Proof Ledger. Codex accelerated the
 implementation and review; I remained responsible for the product boundary and
 every release claim.
 
-At runtime, GPT-5.6 performs the part that is not safely reducible to string
-matching: it interprets the expert correction against inspected evidence and
-proposes the bounded repair. LessonProof owns every permission, validation,
-mutation, check, proof, and undo decision around that proposal.
+At runtime, GPT-5.6 turns the reviewer's correction and bounded evidence into a
+schema-constrained proposal: which exact quote to change, which anchors support
+it, and which dependent artifacts to invalidate. LessonProof treats that plan
+as untrusted input and owns every permission, validation, mutation, check,
+proof, and undo decision around it.
 
 ## Safety and judgeability
 
